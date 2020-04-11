@@ -1,0 +1,18 @@
+version: 1
+scopes: ["page"]
+methods:
+  GET:
+    public: true
+    description: "Returns all available pages"
+    responses: 
+      200: Page-Collection
+      500: Message
+    action: "App\\Action\\Page\\Collection"
+  POST:
+    public: false
+    description: "Creates a new page"
+    request: Page
+    responses: 
+      201: Message
+      500: Message
+    action: "App\\Action\\Page\\Create"

@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "title": "Post-Collection",
+    "properties": {
+        "totalCount": {
+            "type": "integer"
+        },
+        "entry": {
+            "type": "array",
+            "items": {
+                "$ref": "schema:///Post"
+            }
+        }
+    }
+}

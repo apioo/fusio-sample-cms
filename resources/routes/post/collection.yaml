@@ -1,0 +1,18 @@
+version: 1
+scopes: ["post"]
+methods:
+  GET:
+    public: true
+    description: "Returns all available posts"
+    responses: 
+      200: Post-Collection
+      500: Message
+    action: "App\\Action\\Post\\Collection"
+  POST:
+    public: false
+    description: "Creates a new post"
+    request: Post
+    responses: 
+      201: Message
+      500: Message
+    action: "App\\Action\\Post\\Create"

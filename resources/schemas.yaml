@@ -1,0 +1,5 @@
+Page: 'App\Schema\Page'
+Post: 'App\Schema\Post'
+Message: !include resources/schema/message.json
+Page-Collection: !include resources/schema/page/collection.json
+Post-Collection: !include resources/schema/post/collection.json

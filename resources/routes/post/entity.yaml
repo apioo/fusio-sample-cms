@@ -1,0 +1,25 @@
+version: 1
+scopes: ["post"]
+methods:
+  GET:
+    public: true
+    description: "Returns a single post"
+    responses: 
+      200: Post
+      500: Message
+    action: "App\\Action\\Post\\Entity"
+  PUT:
+    public: false
+    description: "Updates a single post"
+    request: Post
+    responses:
+      200: Message
+      500: Message
+    action: "App\\Action\\Post\\Update"
+  DELETE:
+    public: false
+    description: "Removes a specific post"
+    responses: 
+      200: Message
+      500: Message
+    action: "App\\Action\\Post\\Delete"

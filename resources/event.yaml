@@ -1,0 +1,12 @@
+page_created:
+  description: 'Page was created'
+page_updated:
+  description: 'Page was updated'
+page_deleted:
+  description: 'Page was deleted'
+post_created:
+  description: 'Post was created'
+post_updated:
+  description: 'Post was updated'
+post_deleted:
+  description: 'Post was deleted'
