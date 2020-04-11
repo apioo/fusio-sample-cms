@@ -1,0 +1,150 @@
+{
+  "path": "\/post\/:post_id",
+  "version": "*",
+  "status": 4,
+  "description": null,
+  "schema": {
+    "$schema": "http:\/\/json-schema.org\/draft-04\/schema#",
+    "id": "urn:schema.phpsx.org#",
+    "definitions": {
+      "path-template": {
+        "type": "object",
+        "title": "path",
+        "properties": {
+          "post_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "title": "Post",
+        "properties": {
+          "pageId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "summary": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "x-psx-class": "App\\Schema\\Post"
+      },
+      "Message": {
+        "type": "object",
+        "title": "message",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Passthru": {
+        "type": "object",
+        "title": "passthru",
+        "description": "No schema was specified.",
+        "additionalProperties": true
+      },
+      "GET-200-response": {
+        "$ref": "#\/definitions\/Post"
+      },
+      "GET-500-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "PUT-request": {
+        "$ref": "#\/definitions\/Post"
+      },
+      "PUT-200-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "PUT-500-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "DELETE-request": {
+        "$ref": "#\/definitions\/Passthru"
+      },
+      "DELETE-200-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "DELETE-500-response": {
+        "$ref": "#\/definitions\/Message"
+      }
+    }
+  },
+  "pathParameters": "#\/definitions\/path-template",
+  "methods": {
+    "GET": {
+      "description": "Returns a single post",
+      "operationId": "get.post.post_id",
+      "responses": {
+        "200": "#\/definitions\/GET-200-response",
+        "500": "#\/definitions\/GET-500-response"
+      }
+    },
+    "PUT": {
+      "description": "Updates a single post",
+      "operationId": "put.post.post_id",
+      "request": "#\/definitions\/PUT-request",
+      "responses": {
+        "200": "#\/definitions\/PUT-200-response",
+        "500": "#\/definitions\/PUT-500-response"
+      }
+    },
+    "DELETE": {
+      "description": "Removes a specific post",
+      "operationId": "delete.post.post_id",
+      "request": "#\/definitions\/DELETE-request",
+      "responses": {
+        "200": "#\/definitions\/DELETE-200-response",
+        "500": "#\/definitions\/DELETE-500-response"
+      }
+    }
+  },
+  "links": [
+    {
+      "rel": "client-php",
+      "href": "\/index.php\/export\/client-php\/*\/post\/:post_id"
+    },
+    {
+      "rel": "client-typescript",
+      "href": "\/index.php\/export\/client-typescript\/*\/post\/:post_id"
+    },
+    {
+      "rel": "markup-html",
+      "href": "\/index.php\/export\/markup-html\/*\/post\/:post_id"
+    },
+    {
+      "rel": "markup-markdown",
+      "href": "\/index.php\/export\/markup-markdown\/*\/post\/:post_id"
+    },
+    {
+      "rel": "spec-jsonschema",
+      "href": "\/index.php\/export\/spec-jsonschema\/*\/post\/:post_id"
+    },
+    {
+      "rel": "spec-openapi",
+      "href": "\/index.php\/export\/spec-openapi\/*\/post\/:post_id"
+    },
+    {
+      "rel": "spec-raml",
+      "href": "\/index.php\/export\/spec-raml\/*\/post\/:post_id"
+    },
+    {
+      "rel": "spec-swagger",
+      "href": "\/index.php\/export\/spec-swagger\/*\/post\/:post_id"
+    }
+  ]
+}

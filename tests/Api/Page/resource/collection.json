@@ -1,0 +1,230 @@
+{
+  "path": "\/page",
+  "version": "*",
+  "status": 4,
+  "description": null,
+  "schema": {
+    "$schema": "http:\/\/json-schema.org\/draft-04\/schema#",
+    "id": "urn:schema.phpsx.org#",
+    "definitions": {
+      "Page": {
+        "type": "object",
+        "title": "Page",
+        "properties": {
+          "parentId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "sort": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#\/definitions\/Code"
+                },
+                {
+                  "$ref": "#\/definitions\/Headline"
+                },
+                {
+                  "$ref": "#\/definitions\/Image"
+                },
+                {
+                  "$ref": "#\/definitions\/Paragraph"
+                }
+              ]
+            }
+          },
+          "insertDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "x-psx-class": "App\\Schema\\Page"
+      },
+      "Code": {
+        "type": "object",
+        "title": "Code",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "code"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "content"
+        ],
+        "x-psx-class": "App\\Schema\\Block\\Code"
+      },
+      "Headline": {
+        "type": "object",
+        "title": "Headline",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "headline"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "content"
+        ],
+        "x-psx-class": "App\\Schema\\Block\\Headline"
+      },
+      "Image": {
+        "type": "object",
+        "title": "Image",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "image"
+            ]
+          },
+          "src": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "content"
+        ],
+        "x-psx-class": "App\\Schema\\Block\\Image"
+      },
+      "Paragraph": {
+        "type": "object",
+        "title": "Paragraph",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "paragraph"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "content"
+        ],
+        "x-psx-class": "App\\Schema\\Block\\Paragraph"
+      },
+      "Page_Collection": {
+        "type": "object",
+        "title": "Page-Collection",
+        "properties": {
+          "totalCount": {
+            "type": "integer"
+          },
+          "entry": {
+            "type": "array",
+            "items": {
+              "$ref": "#\/definitions\/Page"
+            }
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "title": "message",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "GET-200-response": {
+        "$ref": "#\/definitions\/Page_Collection"
+      },
+      "GET-500-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "POST-request": {
+        "$ref": "#\/definitions\/Page"
+      },
+      "POST-201-response": {
+        "$ref": "#\/definitions\/Message"
+      },
+      "POST-500-response": {
+        "$ref": "#\/definitions\/Message"
+      }
+    }
+  },
+  "methods": {
+    "GET": {
+      "description": "Returns all available pages",
+      "operationId": "get.page",
+      "responses": {
+        "200": "#\/definitions\/GET-200-response",
+        "500": "#\/definitions\/GET-500-response"
+      }
+    },
+    "POST": {
+      "description": "Creates a new page",
+      "operationId": "post.page",
+      "request": "#\/definitions\/POST-request",
+      "responses": {
+        "201": "#\/definitions\/POST-201-response",
+        "500": "#\/definitions\/POST-500-response"
+      }
+    }
+  },
+  "links": [
+    {
+      "rel": "client-php",
+      "href": "\/index.php\/export\/client-php\/*\/page"
+    },
+    {
+      "rel": "client-typescript",
+      "href": "\/index.php\/export\/client-typescript\/*\/page"
+    },
+    {
+      "rel": "markup-html",
+      "href": "\/index.php\/export\/markup-html\/*\/page"
+    },
+    {
+      "rel": "markup-markdown",
+      "href": "\/index.php\/export\/markup-markdown\/*\/page"
+    },
+    {
+      "rel": "spec-jsonschema",
+      "href": "\/index.php\/export\/spec-jsonschema\/*\/page"
+    },
+    {
+      "rel": "spec-openapi",
+      "href": "\/index.php\/export\/spec-openapi\/*\/page"
+    },
+    {
+      "rel": "spec-raml",
+      "href": "\/index.php\/export\/spec-raml\/*\/page"
+    },
+    {
+      "rel": "spec-swagger",
+      "href": "\/index.php\/export\/spec-swagger\/*\/page"
+    }
+  ]
+}

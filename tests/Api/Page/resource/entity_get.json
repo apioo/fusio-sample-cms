@@ -1,0 +1,30 @@
+{
+  "id": 2,
+  "status": 1,
+  "title": "Blog",
+  "blocks": [
+    {
+      "type": "headline",
+      "content": "Blog"
+    },
+    {
+      "type": "post"
+    }
+  ],
+  "insertDate": "2020-04-09T19:49:00Z",
+  "children": [
+    {
+      "id": 4,
+      "status": 1,
+      "title": "Imprint",
+      "insertDate": "2020-04-09T19:49:00Z",
+      "links": {
+        "self": "\/page\/4",
+        "parent": "\/page\/2"
+      }
+    }
+  ],
+  "links": {
+    "self": "\/page\/2"
+  }
+}
