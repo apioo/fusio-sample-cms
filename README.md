@@ -23,6 +23,10 @@ website: https://www.fusio-project.org/
     folder. In this case we use the System connection but you can also execute
     migrations on different connections 
 
+Note this repository does not contain the Fusio backend app, since we develop
+the complete API via source files. If you want to use the backend app you need
+to install it from the marketplace via: `php bin/fusio marketplace:install fusio`
+
 ### Structure
 
 * `resources`
