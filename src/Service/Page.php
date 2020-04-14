@@ -10,6 +10,14 @@ use PSX\CloudEvents\Builder;
 use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
+/**
+ * Page service which is responsible to create, update and delete a page. It
+ * uses the doctrine connection to execute the DML queries and also the
+ * dispatcher to trigger specific events. The users of your API can then register
+ * HTTP callback urls which are invoked if such an event happens. Note in order
+ * to activate the dispatching of the events you need to create a cron to
+ * execute the command: php bin/fusio event:execute
+ */
 class Page
 {
     /**
@@ -50,7 +58,7 @@ class Page
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not insert a page', $e);
         }
 
         $this->dispatchEvent('page_created', $data);
@@ -85,7 +93,7 @@ class Page
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not update a page', $e);
         }
 
         $this->dispatchEvent('page_updated', $data, $id);
@@ -108,7 +116,7 @@ class Page
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not delete a page', $e);
         }
 
         $this->dispatchEvent('page_deleted', $row, $id);

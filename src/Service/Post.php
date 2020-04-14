@@ -11,6 +11,10 @@ use PSX\CloudEvents\Builder;
 use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
+/**
+ * Post service which is responsible to create, update and delete a post. Please
+ * take a look at the page service for more details
+ */
 class Post
 {
     /**
@@ -52,7 +56,7 @@ class Post
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not create a post', $e);
         }
 
         $this->dispatchEvent('post_created', $data);
@@ -88,7 +92,7 @@ class Post
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not update a post', $e);
         }
 
         $this->dispatchEvent('post_updated', $data, $id);
@@ -111,7 +115,7 @@ class Post
         } catch (\Throwable $e) {
             $this->connection->rollBack();
 
-            throw $e;
+            throw new StatusCode\InternalServerErrorException('Could not delete a post', $e);
         }
 
         $this->dispatchEvent('post_deleted', $row, $id);
