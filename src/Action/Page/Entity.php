@@ -9,6 +9,9 @@ use Fusio\Engine\RequestInterface;
 use PSX\Sql\Builder;
 use PSX\Sql\Reference;
 
+/**
+ * Action which returns all details for a single page
+ */
 class Entity extends SqlBuilderAbstract
 {
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)

@@ -10,6 +10,10 @@ use Fusio\Engine\RequestInterface;
 use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
+/**
+ * Action which deletes a page. Similar to the create action it only invokes the
+ * page service to delete a specific page
+ */
 class Delete extends ActionAbstract
 {
     /**

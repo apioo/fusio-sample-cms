@@ -10,6 +10,10 @@ use Fusio\Engine\RequestInterface;
 use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
+/**
+ * Action which creates a post. Similar to the page create action it only
+ * invokes the post service to create a specific post
+ */
 class Create extends ActionAbstract
 {
     /**

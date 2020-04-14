@@ -9,6 +9,10 @@ use Fusio\Engine\RequestInterface;
 use PSX\Sql\Builder;
 use PSX\Sql\Condition;
 
+/**
+ * Action which returns a collection response of all pages. It shows how to
+ * build complex nested JSON structures based on SQL queries
+ */
 class Collection extends SqlBuilderAbstract
 {
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)

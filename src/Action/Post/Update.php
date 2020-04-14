@@ -11,6 +11,10 @@ use Fusio\Engine\RequestInterface;
 use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
+/**
+ * Action which updates a post. Similar to the create action it only invokes the
+ * post service to update a specific post
+ */
 class Update extends ActionAbstract
 {
     /**
