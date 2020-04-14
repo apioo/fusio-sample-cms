@@ -43,3 +43,25 @@ to install it from the marketplace via: `php bin/fusio marketplace:install fusio
   * `Migrations` - contains all migration files to setup the database structure
   * `Schema` - contains schema classes which are received at the action
   * `Service` - contains the service classes which handle the business logic of your API
+* `tests` - contains all PHP test files
+  * `Api` - contains all API integration tests. Theses tests trigger the API endpoint like if you call them via a HTTP client but without the need to setup an actual HTTP server
+    * `Page` - contains the page related endpoint tests
+    * `Post` - contains the post related endpoint tests
+
+#### Summary
+
+With theses few source files we have created a production ready API with all
+modern features like:
+
+* OpenAPI documentation
+* Developer portal (login/registration with social login)
+* Schema validation
+* OAuth2 authorization with scopes for specific parts of the API
+* Rate limiting
+* Pub/sub support
+* SDK generation
+* Monetization
+* Testing
+
+Please let us know if there is documentation missing or if you like to handle
+a specific use case.
