@@ -2,7 +2,6 @@
 
 namespace App\Action\Post;
 
-use App\Service\Page;
 use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;

@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Schema\Page as SchemaPage;
 use App\Schema\Post as SchemaPost;
 use Doctrine\DBAL\Connection;
 use Fusio\Engine\ContextInterface;

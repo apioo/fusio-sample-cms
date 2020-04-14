@@ -7,7 +7,6 @@ use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
 use PSX\Sql\Builder;
-use PSX\Sql\Reference;
 
 /**
  * Action which returns all details for a single post
