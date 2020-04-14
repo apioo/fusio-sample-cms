@@ -29,17 +29,17 @@ to install it from the marketplace via: `php bin/fusio marketplace:install fusio
 
 ### Structure
 
-* `resources`
-  * `routes`
-  * `schema`
-  * `config.yaml`
-  * `connections.yaml`
-  * `event.yaml`
-  * `routes.yaml`
-  * `schemas.yaml`
-* `src`
-  * `Action`
-  * `Dependency`
-  * `Migrations`
-  * `Schema`
-  * `Service`
+* `resources` - contains all API configuration files
+  * `routes` - folder which contains route configurations
+  * `schema` - folder which contains schema configurations
+  * `config.yaml` - contains the Fusio system config
+  * `connections.yaml` - contains a list of all available connections to remote systems i.e. a database or message-queue
+  * `event.yaml` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
+  * `routes.yaml` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
+  * `schemas.yaml` - contains an index of all available schemas with a reference either to a schema file inside the `schema/` folder or a PHP schema class
+* `src` - contains all PHP source files
+  * `Action` - contains all action classes which are used at the defined routes
+  * `Dependency` - contains a custom DI container to register services for the app
+  * `Migrations` - contains all migration files to setup the database structure
+  * `Schema` - contains schema classes which are received at the action
+  * `Service` - contains the service classes which handle the business logic of your API
