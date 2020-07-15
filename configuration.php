@@ -60,7 +60,16 @@ return [
 
     // Endpoint of the apps repository. All listed apps can be installed by the
     // user at the backend app
-    'fusio_marketplace_url'   => 'https://raw.githubusercontent.com/apioo/fusio/master/marketplace.yaml',
+    'fusio_marketplace_url'   => 'https://www.fusio-project.org/marketplace.yaml',
+
+    // The public url to the apps folder (i.e. http://acme.com/apps or 
+    // http://apps.acme.com)
+    'fusio_apps_url'          => getenv('FUSIO_APPS_URL'),
+
+    // Location where the apps are persisted from the marketplace. By default
+    // this is the public dir to access the apps directly, but it is also
+    // possible to specify a different folder
+    'fusio_apps_dir'          => __DIR__ . '/apps',
 
     // Location of the automatically generated cron file. Note Fusio writes only
     // to this file if it exists. In order to use the cronjob service you need
@@ -71,8 +80,8 @@ return [
     // file
     'fusio_cron_exec'         => '/usr/bin/php ' . __DIR__ . '/bin/fusio',
 
-    // The url to the psx public folder (i.e. http://127.0.0.1/psx/public or 
-    // http://localhost.com)
+    // The public url to the public folder (i.e. http://acme.com/public or 
+    // http://acme.com)
     'psx_url'                 => getenv('FUSIO_URL'),
 
     // To enable clean urls you need to set this to '' this works only in case
@@ -93,7 +102,7 @@ return [
         'user'                => getenv('FUSIO_DB_USER'),
         'password'            => getenv('FUSIO_DB_PW'),
         'host'                => getenv('FUSIO_DB_HOST'),
-        'driver'              => 'pdo_mysql',
+        'driver'              => getenv('FUSIO_DB_DRIVER') ?: 'pdo_mysql',
         'driverOptions'       => [
             // dont emulate so that we can use prepared statements in limit clause
             \PDO::ATTR_EMULATE_PREPARES => false

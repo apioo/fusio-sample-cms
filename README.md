@@ -58,7 +58,7 @@ modern features like:
 * Schema validation
 * OAuth2 authorization with scopes for specific parts of the API
 * Rate limiting
-* Pub/sub support
+* Pub/sub support (using CloudEvents)
 * SDK generation
 * Monetization
 * Testing
