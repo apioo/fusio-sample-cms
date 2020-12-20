@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Schema\Page as SchemaPage;
+use App\Model;
 use Doctrine\DBAL\Connection;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
@@ -36,7 +36,7 @@ class Page
         $this->dispatcher = $dispatcher;
     }
 
-    public function create(SchemaPage $page, ContextInterface $context): int
+    public function create(Model\Page $page, ContextInterface $context): int
     {
         $this->assertPage($page);
 
@@ -66,7 +66,7 @@ class Page
         return $id;
     }
 
-    public function update(int $id, SchemaPage $page): int
+    public function update(int $id, Model\Page $page): int
     {
         $row = $this->connection->fetchAssoc('SELECT id FROM app_page WHERE id = :id', [
             'id' => $id,
@@ -137,7 +137,7 @@ class Page
         $this->dispatcher->dispatch($type, $event);
     }
 
-    private function assertPage(SchemaPage $page)
+    private function assertPage(Model\Page $page)
     {
         $title = $page->getTitle();
         if (empty($title)) {

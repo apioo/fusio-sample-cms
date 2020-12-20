@@ -1,0 +1,97 @@
+{
+  "definitions": {
+    "Collection": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer"
+        },
+        "entry": {
+          "type": "array",
+          "items": {
+            "$generic": "T"
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Page_Collection": {
+      "$ref": "Collection",
+      "$template": {
+        "T": "Page"
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "parentId": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [{
+              "$ref": "Block_Code"
+            }, {
+              "$ref": "Block_Headline"
+            }, {
+              "$ref": "Block_Image"
+            }, {
+              "$ref": "Block_Paragraph"
+            }]
+          }
+        },
+        "insertDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Post_Collection": {
+      "$ref": "Collection",
+      "$template": {
+        "T": "Post"
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "insertDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

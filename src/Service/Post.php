@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Schema\Post as SchemaPost;
+use App\Model;
 use Doctrine\DBAL\Connection;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
@@ -32,7 +32,7 @@ class Post
         $this->dispatcher = $dispatcher;
     }
 
-    public function create(SchemaPost $post, ContextInterface $context): int
+    public function create(Model\Post $post, ContextInterface $context): int
     {
         $this->assertPost($post);
 
@@ -63,7 +63,7 @@ class Post
         return $id;
     }
 
-    public function update(int $id, SchemaPost $post): int
+    public function update(int $id, Model\Post $post): int
     {
         $row = $this->connection->fetchAssoc('SELECT id FROM app_post WHERE id = :id', [
             'id' => $id,
@@ -135,7 +135,7 @@ class Post
         $this->dispatcher->dispatch($type, $event);
     }
 
-    private function assertPost(SchemaPost $post)
+    private function assertPost(Model\Post $post)
     {
         $title = $post->getTitle();
         if (empty($title)) {

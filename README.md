@@ -29,24 +29,21 @@ to install it from the marketplace via: `php bin/fusio marketplace:install fusio
 
 ### Structure
 
+* `gen` - contains the TypeSchema specification to generate the model classes
 * `resources` - contains all API configuration files
   * `routes` - folder which contains route configurations
-  * `schema` - folder which contains schema configurations
   * `config.yaml` - contains the Fusio system config
   * `connections.yaml` - contains a list of all available connections to remote systems i.e. a database or message-queue
   * `event.yaml` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
   * `routes.yaml` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
-  * `schemas.yaml` - contains an index of all available schemas with a reference either to a schema file inside the `schema/` folder or a PHP schema class
 * `src` - contains all PHP source files
   * `Action` - contains all action classes which are used at the defined routes
   * `Dependency` - contains a custom DI container to register services for the app
   * `Migrations` - contains all migration files to setup the database structure
-  * `Schema` - contains schema classes which are received at the action
+  * `Model` - contains the generated model classes which
   * `Service` - contains the service classes which handle the business logic of your API
 * `tests` - contains all PHP test files
   * `Api` - contains all API integration tests. Theses tests trigger the API endpoint like if you call them via a HTTP client but without the need to setup an actual HTTP server
-    * `Page` - contains the page related endpoint tests
-    * `Post` - contains the post related endpoint tests
 
 #### Summary
 
