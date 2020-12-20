@@ -24,7 +24,7 @@ class Page implements \JsonSerializable
      */
     protected $title;
     /**
-     * @var array<Block_Code|Block_Headline|Block_Image|Block_Paragraph>|null
+     * @var array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null
      */
     protected $blocks;
     /**
@@ -88,14 +88,14 @@ class Page implements \JsonSerializable
         return $this->title;
     }
     /**
-     * @param array<Block_Code|Block_Headline|Block_Image|Block_Paragraph>|null $blocks
+     * @param array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null $blocks
      */
     public function setBlocks(?array $blocks) : void
     {
         $this->blocks = $blocks;
     }
     /**
-     * @return array<Block_Code|Block_Headline|Block_Image|Block_Paragraph>|null
+     * @return array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null
      */
     public function getBlocks() : ?array
     {

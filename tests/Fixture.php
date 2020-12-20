@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use Fusio\Impl\Connection\Native;
+use Fusio\Impl\Migrations\DataBag;
 use Fusio\Impl\Migrations\NewInstallation;
+use PSX\Framework\Test\Environment;
 
 /**
  * Fixture
@@ -24,35 +26,28 @@ class Fixture
      * @return array
      * @throws \Exception
      */
-    public static function getSystemInserts()
+    public static function append(DataBag $dataBag): void
     {
         $expire = new \DateTime();
         $expire->add(new \DateInterval('P1M'));
 
-        $scopes = ['page', 'post'];
+        $scopes = ['testing'];
 
-        return [
-            'fusio_scope' => [
-                ['name' => 'testing', 'description' => 'Test scope'],
-            ],
-            'fusio_app_scope' => [
-                ['app_id' => 1, 'scope_id' => 4],
-            ],
-            'fusio_app_token' => [
-                ['app_id' => 1, 'user_id' => 1, 'status' => 1, 'token' => 'da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf', 'scope' => implode(',', $scopes), 'ip' => '127.0.0.1', 'expire' => $expire->format('Y-m-d H:i:s'), 'date' => '2015-06-25 22:49:09'],
-            ],
-            'fusio_user_scope' => [
-                ['user_id' => 1, 'scope_id' => 4],
-            ],
-            'fusio_event' => [
-                ['status' => 1, 'name' => 'page_created', 'description' => '', ],
-                ['status' => 1, 'name' => 'page_updated', 'description' => '', ],
-                ['status' => 1, 'name' => 'page_deleted', 'description' => '', ],
-                ['status' => 1, 'name' => 'post_created', 'description' => '', ],
-                ['status' => 1, 'name' => 'post_updated', 'description' => '', ],
-                ['status' => 1, 'name' => 'post_deleted', 'description' => '', ],
-            ],
-        ];
+        $dataBag->addScope('default', 'testing', 'Test scope');
+        $dataBag->addAppScope('Backend', 'testing');
+        $dataBag->addAppToken('Backend', 'Administrator', 'da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf', '', implode(',', $scopes), $expire->format('Y-m-d H:i:s'), '2015-06-25 22:49:09');
+        $dataBag->addUserScope('Administrator', 'testing');
+        $dataBag->addEvent('default', 'page_created', '');
+        $dataBag->addEvent('default', 'page_updated', '');
+        $dataBag->addEvent('default', 'page_deleted', '');
+        $dataBag->addEvent('default', 'post_created', '');
+        $dataBag->addEvent('default', 'post_updated', '');
+        $dataBag->addEvent('default', 'post_deleted', '');
+
+        $inserts = self::getDemoInserts();
+        foreach ($inserts as $tableName => $rows) {
+            $dataBag->addTable($tableName, $rows);
+        }
     }
 
     /**
@@ -80,25 +75,21 @@ class Fixture
             'app_post' => $posts,
         ];
     }
-    
+
     public static function getFixture()
     {
         if (self::$dataSet !== null) {
             return self::$dataSet;
         }
 
-        $installInserts = NewInstallation::getData();
+        $dataBag = NewInstallation::getData();
 
         // replace System connection class
-        $installInserts['fusio_connection'][0]['class'] = Native::class;
+        $dataBag->replace('fusio_connection', 'System', 'class', Native::class);
 
-        $dataSet = array_merge_recursive(
-            $installInserts,
-            self::getSystemInserts(),
-            self::getDemoInserts()
-        );
+        self::append($dataBag);
 
-        return self::$dataSet = $dataSet;
+        return self::$dataSet = $dataBag;
     }
 }
 

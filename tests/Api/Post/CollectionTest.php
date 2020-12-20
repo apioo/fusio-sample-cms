@@ -35,7 +35,7 @@ class CollectionTest extends ApiTestCase
 {
     public function testDocumentation()
     {
-        $response = $this->sendRequest('/doc/*/post', 'GET', [
+        $response = $this->sendRequest('/system/doc/*/post', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 

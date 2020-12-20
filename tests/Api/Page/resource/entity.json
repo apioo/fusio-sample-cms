@@ -1,249 +1,188 @@
 {
-  "path": "\/page\/:page_id",
-  "version": "*",
   "status": 4,
-  "description": null,
-  "schema": {
-    "$schema": "http:\/\/json-schema.org\/draft-04\/schema#",
-    "id": "urn:schema.phpsx.org#",
-    "definitions": {
-      "path-template": {
-        "type": "object",
-        "title": "path",
-        "properties": {
-          "page_id": {
-            "type": "string"
-          }
-        }
-      },
-      "Code": {
-        "type": "object",
-        "title": "Code",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "code"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Code"
-      },
-      "Headline": {
-        "type": "object",
-        "title": "Headline",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "headline"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Headline"
-      },
-      "Image": {
-        "type": "object",
-        "title": "Image",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "image"
-            ]
-          },
-          "src": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Image"
-      },
-      "Paragraph": {
-        "type": "object",
-        "title": "Paragraph",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "paragraph"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Paragraph"
-      },
-      "Page": {
-        "type": "object",
-        "title": "Page",
-        "properties": {
-          "parentId": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "integer"
-          },
-          "sort": {
-            "type": "integer"
-          },
-          "title": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "blocks": {
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#\/definitions\/Code"
-                },
-                {
-                  "$ref": "#\/definitions\/Headline"
-                },
-                {
-                  "$ref": "#\/definitions\/Image"
-                },
-                {
-                  "$ref": "#\/definitions\/Paragraph"
-                }
-              ]
-            }
-          },
-          "insertDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "x-psx-class": "App\\Schema\\Page"
-      },
-      "Message": {
-        "type": "object",
-        "title": "message",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "Passthru": {
-        "type": "object",
-        "title": "passthru",
-        "description": "No schema was specified.",
-        "additionalProperties": true
-      },
-      "GET-200-response": {
-        "$ref": "#\/definitions\/Page"
-      },
-      "GET-500-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "PUT-request": {
-        "$ref": "#\/definitions\/Page"
-      },
-      "PUT-200-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "PUT-500-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "DELETE-request": {
-        "$ref": "#\/definitions\/Passthru"
-      },
-      "DELETE-200-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "DELETE-500-response": {
-        "$ref": "#\/definitions\/Message"
-      }
-    }
-  },
-  "pathParameters": "#\/definitions\/path-template",
+  "path": "\/page\/:page_id",
+  "pathParameters": "PagePage_idPath",
   "methods": {
     "GET": {
-      "description": "Returns a single page",
       "operationId": "get.page.page_id",
+      "description": "Returns a single page",
+      "tags": [
+        "page",
+        "testing"
+      ],
       "responses": {
-        "200": "#\/definitions\/GET-200-response",
-        "500": "#\/definitions\/GET-500-response"
+        "200": "App_Model_Page",
+        "500": "App_Model_Message"
       }
     },
     "PUT": {
-      "description": "Updates a single page",
       "operationId": "put.page.page_id",
-      "request": "#\/definitions\/PUT-request",
+      "description": "Updates a single page",
+      "security": {
+        "app": [
+          "page",
+          "testing"
+        ]
+      },
+      "tags": [
+        "page",
+        "testing"
+      ],
+      "request": "App_Model_Page",
       "responses": {
-        "200": "#\/definitions\/PUT-200-response",
-        "500": "#\/definitions\/PUT-500-response"
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
       }
     },
     "DELETE": {
-      "description": "Removes a specific page",
       "operationId": "delete.page.page_id",
-      "request": "#\/definitions\/DELETE-request",
+      "description": "Removes a specific page",
+      "security": {
+        "app": [
+          "page",
+          "testing"
+        ]
+      },
+      "tags": [
+        "page",
+        "testing"
+      ],
+      "request": "Passthru",
       "responses": {
-        "200": "#\/definitions\/DELETE-200-response",
-        "500": "#\/definitions\/DELETE-500-response"
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
       }
     }
   },
-  "links": [
-    {
-      "rel": "client-php",
-      "href": "\/index.php\/export\/client-php\/*\/page\/:page_id"
+  "definitions": {
+    "App_Model_Message": {
+      "$ref": "Message"
     },
-    {
-      "rel": "client-typescript",
-      "href": "\/index.php\/export\/client-typescript\/*\/page\/:page_id"
+    "App_Model_Page": {
+      "$ref": "Page"
     },
-    {
-      "rel": "markup-html",
-      "href": "\/index.php\/export\/markup-html\/*\/page\/:page_id"
+    "Block_Code": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "code",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "markup-markdown",
-      "href": "\/index.php\/export\/markup-markdown\/*\/page\/:page_id"
+    "Block_Headline": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "headline",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-jsonschema",
-      "href": "\/index.php\/export\/spec-jsonschema\/*\/page\/:page_id"
+    "Block_Image": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "image",
+          "type": "string"
+        },
+        "src": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-openapi",
-      "href": "\/index.php\/export\/spec-openapi\/*\/page\/:page_id"
+    "Block_Paragraph": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "paragraph",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-raml",
-      "href": "\/index.php\/export\/spec-raml\/*\/page\/:page_id"
+    "Block_Post": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "post",
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-swagger",
-      "href": "\/index.php\/export\/spec-swagger\/*\/page\/:page_id"
+    "Message": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "parentId": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "Block_Code"
+              },
+              {
+                "$ref": "Block_Headline"
+              },
+              {
+                "$ref": "Block_Image"
+              },
+              {
+                "$ref": "Block_Paragraph"
+              },
+              {
+                "$ref": "Block_Post"
+              }
+            ]
+          }
+        },
+        "insertDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "PagePage_idPath": {
+      "type": "object",
+      "properties": {
+        "page_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Passthru": {
+      "description": "No schema information available",
+      "type": "object"
     }
-  ]
+  }
 }

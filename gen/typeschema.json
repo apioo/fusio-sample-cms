@@ -57,6 +57,8 @@
               "$ref": "Block_Image"
             }, {
               "$ref": "Block_Paragraph"
+            }, {
+              "$ref": "Block_Post"
             }]
           }
         },
@@ -65,6 +67,68 @@
           "format": "date-time"
         }
       }
+    },
+    "Block_Code": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "code"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "content"]
+    },
+    "Block_Headline": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "headline"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "content"]
+    },
+    "Block_Image": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "image"
+        },
+        "src": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "src"]
+    },
+    "Block_Paragraph": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "paragraph"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "content"]
+    },
+    "Block_Post": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "post"
+        }
+      },
+      "required": ["type"]
     },
     "Post_Collection": {
       "$ref": "Collection",

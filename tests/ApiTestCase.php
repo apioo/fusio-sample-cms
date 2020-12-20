@@ -1,9 +1,28 @@
 <?php
+/*
+ * Fusio
+ * A web-application to create dynamically RESTful APIs
+ *
+ * Copyright (C) 2015-2016 Christoph Kappestein <christoph.kappestein@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace App\Tests;
 
 use Fusio\Impl\Controller\SchemaApiController;
-use Fusio\Impl\Loader\DatabaseRoutes;
+use Fusio\Impl\Framework\Loader\RoutingParser\DatabaseParser;
 use Fusio\Impl\Service\System\Deploy;
 use PSX\Framework\Test\ControllerDbTestCase;
 use PSX\Framework\Test\Environment;
@@ -19,10 +38,10 @@ abstract class ApiTestCase extends ControllerDbTestCase
 {
     public function getDataSet()
     {
-        return Fixture::getFixture();
+        return Fixture::getFixture()->toArray();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,16 +56,16 @@ abstract class ApiTestCase extends ControllerDbTestCase
         // clear all cached routes after deployment since the deploy adds new
         // routes which are not in the database
         $routingParser = Environment::getService('routing_parser');
-        if ($routingParser instanceof DatabaseRoutes) {
+        if ($routingParser instanceof DatabaseParser) {
             $routingParser->clear();
         }
 
-        // after the deployment we must assign all routes to the scope from our
-        // test token so that we can access every endpoint in the tests
-        $routes = $this->connection->fetchAll('SELECT * FROM fusio_routes WHERE controller = :controller', ['controller' => SchemaApiController::class]);
+        // add scope for all routes
+        $scopeId = Fixture::getFixture()->getId('fusio_scope', 'testing');
+        $routes = $this->connection->fetchAll('SELECT id FROM fusio_routes WHERE category_id = :category', ['category' => 1]);
         foreach ($routes as $route) {
             $this->connection->insert('fusio_scope_routes', [
-                'scope_id' => 4,
+                'scope_id' => $scopeId,
                 'route_id' => $route['id'],
                 'allow'    => 1,
                 'methods'  => 'GET|POST|PUT|DELETE',

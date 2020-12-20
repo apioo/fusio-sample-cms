@@ -3,6 +3,7 @@
 namespace App\Tests\Api\Page;
 
 use App\Tests\ApiTestCase;
+use http\Env;
 use PSX\Framework\Test\Environment;
 
 /**
@@ -16,7 +17,7 @@ class CollectionTest extends ApiTestCase
 {
     public function testDocumentation()
     {
-        $response = $this->sendRequest('/doc/*/page', 'GET', [
+        $response = $this->sendRequest('/system/doc/*/page', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 

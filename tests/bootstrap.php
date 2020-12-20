@@ -1,5 +1,7 @@
 <?php
 
+use Doctrine\DBAL\Schema\AbstractAsset;
+
 require(__DIR__ . '/../vendor/autoload.php');
 
 PSX\Framework\Test\Environment::setup(__DIR__);
@@ -12,20 +14,20 @@ function runMigrations()
     $connection = \PSX\Framework\Test\Environment::getService('connection');
 
     // run Fusio migrations
-    $configuration = \Fusio\Impl\Migrations\ConfigurationBuilder::fromSystem(
-        \PSX\Framework\Test\Environment::getService('connection')
-    );
+    $configuration = \Fusio\Impl\Migrations\ConfigurationBuilder::fromSystem($connection);
 
-    $versions = $configuration->getAvailableVersions();
-    foreach ($versions as $versionNumber) {
-        $version = $configuration->getVersion($versionNumber);
-        $version->execute(\Doctrine\DBAL\Migrations\Version::DIRECTION_UP);
-    }
+    $factory = new \Doctrine\Migrations\DependencyFactory($configuration);
+    $factory->getMigrator()->migrate();
 
     // replace System connection class
     $connection->update('fusio_connection', ['class' => \Fusio\Impl\Connection\Native::class], ['id' => 1]);
 
-    $connection->getConfiguration()->setFilterSchemaAssetsExpression("~^(?!fusio_)~");
+    $connection->getConfiguration()->setSchemaAssetsFilter(static function($assetName) {
+        if ($assetName instanceof AbstractAsset) {
+            $assetName = $assetName->getName();
+        }
+        return preg_match('~^(?!fusio_)~', $assetName);
+    });
 
     // run App migrations
     $configuration = \Fusio\Impl\Migrations\ConfigurationBuilder::fromConnector(
@@ -33,11 +35,8 @@ function runMigrations()
         \PSX\Framework\Test\Environment::getService('connector')
     );
 
-    $versions = $configuration->getAvailableVersions();
-    foreach ($versions as $versionNumber) {
-        $version = $configuration->getVersion($versionNumber);
-        $version->execute(\Doctrine\DBAL\Migrations\Version::DIRECTION_UP);
-    }
+    $factory = new \Doctrine\Migrations\DependencyFactory($configuration);
+    $factory->getMigrator()->migrate();
 
-    $connection->getConfiguration()->setFilterSchemaAssetsExpression(null);
+    $connection->getConfiguration()->setSchemaAssetsFilter(null);
 }

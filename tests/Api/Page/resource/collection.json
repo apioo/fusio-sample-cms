@@ -1,230 +1,179 @@
 {
-  "path": "\/page",
-  "version": "*",
   "status": 4,
-  "description": null,
-  "schema": {
-    "$schema": "http:\/\/json-schema.org\/draft-04\/schema#",
-    "id": "urn:schema.phpsx.org#",
-    "definitions": {
-      "Page": {
-        "type": "object",
-        "title": "Page",
-        "properties": {
-          "parentId": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "integer"
-          },
-          "sort": {
-            "type": "integer"
-          },
-          "title": {
-            "type": "string",
-            "maxLength": 255
-          },
-          "blocks": {
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#\/definitions\/Code"
-                },
-                {
-                  "$ref": "#\/definitions\/Headline"
-                },
-                {
-                  "$ref": "#\/definitions\/Image"
-                },
-                {
-                  "$ref": "#\/definitions\/Paragraph"
-                }
-              ]
-            }
-          },
-          "insertDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "x-psx-class": "App\\Schema\\Page"
-      },
-      "Code": {
-        "type": "object",
-        "title": "Code",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "code"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Code"
-      },
-      "Headline": {
-        "type": "object",
-        "title": "Headline",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "headline"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Headline"
-      },
-      "Image": {
-        "type": "object",
-        "title": "Image",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "image"
-            ]
-          },
-          "src": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Image"
-      },
-      "Paragraph": {
-        "type": "object",
-        "title": "Paragraph",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "paragraph"
-            ]
-          },
-          "content": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "content"
-        ],
-        "x-psx-class": "App\\Schema\\Block\\Paragraph"
-      },
-      "Page_Collection": {
-        "type": "object",
-        "title": "Page-Collection",
-        "properties": {
-          "totalCount": {
-            "type": "integer"
-          },
-          "entry": {
-            "type": "array",
-            "items": {
-              "$ref": "#\/definitions\/Page"
-            }
-          }
-        }
-      },
-      "Message": {
-        "type": "object",
-        "title": "message",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "GET-200-response": {
-        "$ref": "#\/definitions\/Page_Collection"
-      },
-      "GET-500-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "POST-request": {
-        "$ref": "#\/definitions\/Page"
-      },
-      "POST-201-response": {
-        "$ref": "#\/definitions\/Message"
-      },
-      "POST-500-response": {
-        "$ref": "#\/definitions\/Message"
-      }
-    }
-  },
+  "path": "\/page",
   "methods": {
     "GET": {
-      "description": "Returns all available pages",
       "operationId": "get.page",
+      "description": "Returns all available pages",
+      "tags": [
+        "page",
+        "testing"
+      ],
       "responses": {
-        "200": "#\/definitions\/GET-200-response",
-        "500": "#\/definitions\/GET-500-response"
+        "200": "App_Model_Page_Collection",
+        "500": "App_Model_Message"
       }
     },
     "POST": {
-      "description": "Creates a new page",
       "operationId": "post.page",
-      "request": "#\/definitions\/POST-request",
+      "description": "Creates a new page",
+      "security": {
+        "app": [
+          "page",
+          "testing"
+        ]
+      },
+      "tags": [
+        "page",
+        "testing"
+      ],
+      "request": "App_Model_Page",
       "responses": {
-        "201": "#\/definitions\/POST-201-response",
-        "500": "#\/definitions\/POST-500-response"
+        "201": "App_Model_Message",
+        "500": "App_Model_Message"
       }
     }
   },
-  "links": [
-    {
-      "rel": "client-php",
-      "href": "\/index.php\/export\/client-php\/*\/page"
+  "definitions": {
+    "App_Model_Message": {
+      "$ref": "Message"
     },
-    {
-      "rel": "client-typescript",
-      "href": "\/index.php\/export\/client-typescript\/*\/page"
+    "App_Model_Page": {
+      "$ref": "Page"
     },
-    {
-      "rel": "markup-html",
-      "href": "\/index.php\/export\/markup-html\/*\/page"
+    "App_Model_Page_Collection": {
+      "$ref": "Page_Collection"
     },
-    {
-      "rel": "markup-markdown",
-      "href": "\/index.php\/export\/markup-markdown\/*\/page"
+    "Block_Code": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "code",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-jsonschema",
-      "href": "\/index.php\/export\/spec-jsonschema\/*\/page"
+    "Block_Headline": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "headline",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-openapi",
-      "href": "\/index.php\/export\/spec-openapi\/*\/page"
+    "Block_Image": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "image",
+          "type": "string"
+        },
+        "src": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-raml",
-      "href": "\/index.php\/export\/spec-raml\/*\/page"
+    "Block_Paragraph": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "paragraph",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
     },
-    {
-      "rel": "spec-swagger",
-      "href": "\/index.php\/export\/spec-swagger\/*\/page"
+    "Block_Post": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "post",
+          "type": "string"
+        }
+      }
+    },
+    "Collection": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer"
+        },
+        "entry": {
+          "type": "array",
+          "items": {
+            "$generic": "T"
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "parentId": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "sort": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "Block_Code"
+              },
+              {
+                "$ref": "Block_Headline"
+              },
+              {
+                "$ref": "Block_Image"
+              },
+              {
+                "$ref": "Block_Paragraph"
+              },
+              {
+                "$ref": "Block_Post"
+              }
+            ]
+          }
+        },
+        "insertDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "Page_Collection": {
+      "$ref": "Collection",
+      "$template": {
+        "T": "Page"
+      }
     }
-  ]
+  }
 }
