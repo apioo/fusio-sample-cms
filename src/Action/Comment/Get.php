@@ -9,7 +9,7 @@ use Fusio\Engine\RequestInterface;
 use PSX\Sql\Builder;
 
 /**
- * Action which returns all comments
+ * Action which returns a specific comment
  */
 class Get extends SqlBuilderAbstract
 {

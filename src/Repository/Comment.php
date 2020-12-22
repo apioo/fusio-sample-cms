@@ -6,8 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 
 /**
- * Post service which is responsible to create, update and delete a post. Please
- * take a look at the page service for more details
+ * Repository which handles all database operations regarding a comment
  */
 class Comment
 {

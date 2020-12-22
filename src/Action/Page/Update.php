@@ -12,8 +12,7 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which updates a page. Similar to the create action it only invokes the
- * page service to update a specific page
+ * Action which updates a page. Similar to the create action it only invokes the page service to update a specific page
  */
 class Update extends ActionAbstract
 {

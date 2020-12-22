@@ -11,8 +11,8 @@ use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
 /**
- * Post service which is responsible to create, update and delete a post. Please
- * take a look at the page service for more details
+ * Post service which is responsible to create, update and delete a post. Please take a look at the page service for
+ * more details
  */
 class Post
 {

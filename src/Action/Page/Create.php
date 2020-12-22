@@ -12,11 +12,10 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which creates a page. The business logic to create a page is contained
- * at the page service (s. Dependency\Container). Otherwise this action is only
- * a gateway to your service and contains not much logic, so that you can write
- * your service as framework independent as possible. It is similar to a
- * controller at a classical framework. 
+ * Action which creates a page. The business logic to create a page is contained at the page service
+ * (s. Dependency\Container). Otherwise this action is only a gateway to your service and contains not much logic, so
+ * that you can write your service as framework independent as possible. It is similar to a controller at a classical
+ * framework. 
  */
 class Create extends ActionAbstract
 {

@@ -12,8 +12,7 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which deletes a post. Similar to the create action it only invokes the
- * post service to delete a specific post
+ * Action which deletes a post. Similar to the create action it only invokes the post service to delete a specific post
  */
 class Delete extends ActionAbstract
 {

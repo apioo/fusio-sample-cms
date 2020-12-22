@@ -10,8 +10,8 @@ use PSX\Sql\Builder;
 use PSX\Sql\Condition;
 
 /**
- * Action which returns a collection response of all posts. It shows how to
- * build complex nested JSON structures based on SQL queries
+ * Action which returns a collection response of all posts. It shows how to build complex nested JSON structures based
+ * on SQL queries
  */
 class GetAll extends SqlBuilderAbstract
 {

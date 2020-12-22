@@ -13,8 +13,8 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which updates a post. Similar to the create action it only invokes the
- * post service to update a specific post
+ * Action which updates a comment. Similar to the create action it only invokes the comment service to update a specific
+ * comment
  */
 class Update extends ActionAbstract
 {
