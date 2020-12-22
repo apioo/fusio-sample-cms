@@ -1,0 +1,25 @@
+version: 1
+scopes: ["comment"]
+methods:
+  GET:
+    public: true
+    description: "Returns a single comment"
+    responses: 
+      200: "App\\Model\\Comment"
+      500: "App\\Model\\Message"
+    action: "App\\Action\\Comment\\Get"
+  PUT:
+    public: false
+    description: "Updates a single comment"
+    request: "App\\Model\\Comment"
+    responses:
+      200: "App\\Model\\Message"
+      500: "App\\Model\\Message"
+    action: "App\\Action\\Comment\\Update"
+  DELETE:
+    public: false
+    description: "Removes a specific comment"
+    responses: 
+      200: "App\\Model\\Message"
+      500: "App\\Model\\Message"
+    action: "App\\Action\\Comment\\Delete"

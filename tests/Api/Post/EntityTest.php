@@ -80,7 +80,7 @@ JSON;
 
     public function testPut()
     {
-        $body     = json_encode(['title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
+        $body     = json_encode(['refId' => 2, 'title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
         $response = $this->sendRequest('/post/1', 'PUT', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
@@ -90,7 +90,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Page successful updated"
+    "message": "Post successful updated",
+    "id": 1
 }
 JSON;
 
@@ -99,9 +100,9 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title, summary, content FROM app_post WHERE id = :id', ['id' => 1]);
+        $actual = $connection->fetchAssoc('SELECT ref_id, title, summary, content FROM app_post WHERE id = :id', ['id' => 1]);
         $expect = [
-            'id' => 1,
+            'ref_id' => 2,
             'title' => 'foo',
             'summary' => 'foo',
             'content' => 'bar',
@@ -121,7 +122,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Post successful deleted"
+    "message": "Post successful deleted",
+    "id": 1
 }
 JSON;
 

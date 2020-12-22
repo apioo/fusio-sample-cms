@@ -6,6 +6,7 @@ namespace App\Model;
 
 /**
  * @template T
+ * @Description("A collection of things")
  */
 class Collection implements \JsonSerializable
 {

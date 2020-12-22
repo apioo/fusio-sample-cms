@@ -2,6 +2,7 @@
 
 namespace App\Action\Page;
 
+use App\Model\Message;
 use App\Service\Page;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
@@ -11,8 +12,7 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which updates a page. Similar to the create action it only invokes the
- * page service to update a specific page
+ * Action which updates a page. Similar to the create action it only invokes the page service to update a specific page
  */
 class Update extends ActionAbstract
 {
@@ -29,20 +29,21 @@ class Update extends ActionAbstract
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $id = (int) $request->getUriFragment('page_id');
+            $id = $this->pageService->update(
+                (int) $request->get('page_id'),
+                $request->getPayload()
+            );
 
-            $this->pageService->update($id, $request->getBody()->getPayload());
-
-            $body = [
-                'success' => true,
-                'message' => 'Page successful updated'
-            ];
+            $message = new Message();
+            $message->setSuccess(true);
+            $message->setMessage('Page successful updated');
+            $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new InternalServerErrorException($e->getMessage());
         }
 
-        return $this->response->build(200, [], $body);
+        return $this->response->build(200, [], $message);
     }
 }

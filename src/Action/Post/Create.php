@@ -2,6 +2,7 @@
 
 namespace App\Action\Post;
 
+use App\Model\Message;
 use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
@@ -11,8 +12,8 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which creates a post. Similar to the page create action it only
- * invokes the post service to create a specific post
+ * Action which creates a post. Similar to the page create action it only invokes the post service to create a specific
+ * post
  */
 class Create extends ActionAbstract
 {
@@ -29,18 +30,21 @@ class Create extends ActionAbstract
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $this->postService->create($request->getBody()->getPayload(), $context);
+            $id = $this->postService->create(
+                $request->getPayload(),
+                $context
+            );
 
-            $body = [
-                'success' => true, 
-                'message' => 'Post successful created'
-            ];
+            $message = new Message();
+            $message->setSuccess(true);
+            $message->setMessage('Post successful created');
+            $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new InternalServerErrorException($e->getMessage());
         }
 
-        return $this->response->build(201, [], $body);
+        return $this->response->build(201, [], $message);
     }
 }

@@ -12,7 +12,7 @@ use PSX\Sql\Reference;
 /**
  * Action which returns all details for a single page
  */
-class Entity extends SqlBuilderAbstract
+class Get extends SqlBuilderAbstract
 {
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
@@ -21,30 +21,20 @@ class Entity extends SqlBuilderAbstract
         $builder    = new Builder($connection);
 
         $sql = 'SELECT page.id,
-                       page.status,
+                       page.ref_id,
                        page.title,
-                       page.data,
+                       page.content,
                        page.insert_date
                   FROM app_page page
                  WHERE page.id = :id';
 
-        $parameters = ['id' => (int) $request->getUriFragment('page_id')];
+        $parameters = ['id' => (int) $request->get('page_id')];
         $definition = $builder->doEntity($sql, $parameters, [
             'id' => $builder->fieldInteger('id'),
-            'status' => $builder->fieldInteger('status'),
+            'refId' => $builder->fieldInteger('ref_id'),
             'title' => 'title',
-            'blocks' => $builder->fieldJson('data'),
+            'content' => 'content',
             'insertDate' => $builder->fieldDateTime('insert_date'),
-            'children' => $builder->doCollection('SELECT id, parent_id, status, title, insert_date FROM app_page WHERE parent_id = :parent', ['parent' =>  new Reference('id')], [
-                'id' => $builder->fieldInteger('id'),
-                'status' => $builder->fieldInteger('status'),
-                'title' => 'title',
-                'insertDate' => $builder->fieldDateTime('insert_date'),
-                'links' => [
-                    'self' => $builder->fieldReplace('/page/{id}'),
-                    'parent' => $builder->fieldReplace('/page/{parent_id}'),
-                ]
-            ]),
             'links' => [
                 'self' => $builder->fieldReplace('/page/{id}'),
             ]

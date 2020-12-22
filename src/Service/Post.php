@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Model;
-use Doctrine\DBAL\Connection;
+use App\Repository;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
@@ -11,24 +11,24 @@ use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
 /**
- * Post service which is responsible to create, update and delete a post. Please
- * take a look at the page service for more details
+ * Post service which is responsible to create, update and delete a post. Please take a look at the page service for
+ * more details
  */
 class Post
 {
     /**
-     * @var Connection
+     * @var Repository\Post
      */
-    private $connection;
+    private $repository;
 
     /**
      * @var DispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(Connection $connection, DispatcherInterface $dispatcher)
+    public function __construct(Repository\Post $repository, DispatcherInterface $dispatcher)
     {
-        $this->connection = $connection;
+        $this->repository = $repository;
         $this->dispatcher = $dispatcher;
     }
 
@@ -36,97 +36,62 @@ class Post
     {
         $this->assertPost($post);
 
-        $this->connection->beginTransaction();
+        $id = $this->repository->insert(
+            $post->getRefId(),
+            $context->getUser()->getId(),
+            $post->getTitle(),
+            $post->getSummary(),
+            $post->getContent()
+        );
 
-        try {
-            $data = [
-                'page_id' => $post->getPageId(),
-                'user_id' => $context->getUser()->getId(),
-                'title' => $post->getTitle(),
-                'summary' => $post->getSummary(),
-                'content' => $post->getContent(),
-                'insert_date' => (new \DateTime())->format('Y-m-d H:i:s'),
-            ];
-
-            $this->connection->insert('app_post', $data);
-            $id = (int) $this->connection->lastInsertId();
-
-            $this->connection->commit();
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not create a post', $e);
-        }
-
-        $this->dispatchEvent('post_created', $data);
+        $row = $this->repository->findById($id);
+        $this->dispatchEvent('post_created', $row, $id);
 
         return $id;
     }
 
     public function update(int $id, Model\Post $post): int
     {
-        $row = $this->connection->fetchAssoc('SELECT id FROM app_post WHERE id = :id', [
-            'id' => $id,
-        ]);
-
+        $row = $this->repository->findById($id);
         if (empty($row)) {
             throw new StatusCode\NotFoundException('Provided post does not exist');
         }
 
         $this->assertPost($post);
 
-        $this->connection->beginTransaction();
+        $id = $this->repository->update(
+            $id,
+            $post->getRefId(),
+            $post->getTitle(),
+            $post->getSummary(),
+            $post->getContent()
+        );
 
-        try {
-            $data = [
-                'page_id' => $post->getPageId(),
-                'title' => $post->getTitle(),
-                'summary' => $post->getSummary(),
-                'content' => $post->getContent(),
-            ];
-
-            $this->connection->update('app_post', $data, ['id' => $id]);
-
-            $this->connection->commit();
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not update a post', $e);
-        }
-
-        $this->dispatchEvent('post_updated', $data, $id);
+        $row = $this->repository->findById($id);
+        $this->dispatchEvent('post_updated', $row, $id);
 
         return $id;
     }
 
     public function delete(int $id): int
     {
-        $row = $this->connection->fetchAssoc('SELECT id FROM app_post WHERE id = :id', [
-            'id' => $id,
-        ]);
-
+        $row = $this->repository->findById($id);
         if (empty($row)) {
             throw new StatusCode\NotFoundException('Provided post does not exist');
         }
 
-        try {
-            $this->connection->delete('app_post', ['id' => $id]);
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not delete a post', $e);
-        }
+        $this->repository->delete($id);
 
         $this->dispatchEvent('post_deleted', $row, $id);
 
         return $id;
     }
 
-    private function dispatchEvent(string $type, array $data, ?int $id = null)
+    private function dispatchEvent(string $type, array $data, int $id)
     {
         $event = (new Builder())
             ->withId(Uuid::pseudoRandom())
-            ->withSource($id !== null ? '/post/' . $id : '/post')
+            ->withSource('/post/' . $id)
             ->withType($type)
             ->withDataContentType('application/json')
             ->withData($data)
@@ -137,6 +102,11 @@ class Post
 
     private function assertPost(Model\Post $post)
     {
+        $refId = $post->getRefId();
+        if ($refId === null) {
+            throw new StatusCode\BadRequestException('No ref provided');
+        }
+
         $title = $post->getTitle();
         if (empty($title)) {
             throw new StatusCode\BadRequestException('No title provided');

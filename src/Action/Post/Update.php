@@ -2,6 +2,7 @@
 
 namespace App\Action\Post;
 
+use App\Model\Message;
 use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
@@ -11,8 +12,7 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which updates a post. Similar to the create action it only invokes the
- * post service to update a specific post
+ * Action which updates a post. Similar to the create action it only invokes the post service to update a specific post
  */
 class Update extends ActionAbstract
 {
@@ -29,20 +29,21 @@ class Update extends ActionAbstract
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $id = (int) $request->getUriFragment('post_id');
+            $id = $this->postService->update(
+                (int) $request->get('post_id'),
+                $request->getPayload()
+            );
 
-            $this->postService->update($id, $request->getBody()->getPayload());
-
-            $body = [
-                'success' => true,
-                'message' => 'Page successful updated'
-            ];
+            $message = new Message();
+            $message->setSuccess(true);
+            $message->setMessage('Post successful updated');
+            $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new InternalServerErrorException($e->getMessage());
         }
 
-        return $this->response->build(200, [], $body);
+        return $this->response->build(200, [], $message);
     }
 }

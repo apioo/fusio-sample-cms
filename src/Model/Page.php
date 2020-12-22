@@ -4,74 +4,40 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
-
+/**
+ * @Description("A specific page")
+ */
 class Page implements \JsonSerializable
 {
     /**
      * @var int|null
      */
-    protected $parentId;
-    /**
-     * @var int|null
-     */
-    protected $status;
-    /**
-     * @var int|null
-     */
-    protected $sort;
+    protected $refId;
     /**
      * @var string|null
      */
     protected $title;
     /**
-     * @var array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null
+     * @var string|null
      */
-    protected $blocks;
+    protected $content;
     /**
      * @var \DateTime|null
      */
     protected $insertDate;
     /**
-     * @param int|null $parentId
+     * @param int|null $refId
      */
-    public function setParentId(?int $parentId) : void
+    public function setRefId(?int $refId) : void
     {
-        $this->parentId = $parentId;
+        $this->refId = $refId;
     }
     /**
      * @return int|null
      */
-    public function getParentId() : ?int
+    public function getRefId() : ?int
     {
-        return $this->parentId;
-    }
-    /**
-     * @param int|null $status
-     */
-    public function setStatus(?int $status) : void
-    {
-        $this->status = $status;
-    }
-    /**
-     * @return int|null
-     */
-    public function getStatus() : ?int
-    {
-        return $this->status;
-    }
-    /**
-     * @param int|null $sort
-     */
-    public function setSort(?int $sort) : void
-    {
-        $this->sort = $sort;
-    }
-    /**
-     * @return int|null
-     */
-    public function getSort() : ?int
-    {
-        return $this->sort;
+        return $this->refId;
     }
     /**
      * @param string|null $title
@@ -88,18 +54,18 @@ class Page implements \JsonSerializable
         return $this->title;
     }
     /**
-     * @param array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null $blocks
+     * @param string|null $content
      */
-    public function setBlocks(?array $blocks) : void
+    public function setContent(?string $content) : void
     {
-        $this->blocks = $blocks;
+        $this->content = $content;
     }
     /**
-     * @return array<Block_Code|Block_Headline|Block_Image|Block_Paragraph|Block_Post>|null
+     * @return string|null
      */
-    public function getBlocks() : ?array
+    public function getContent() : ?string
     {
-        return $this->blocks;
+        return $this->content;
     }
     /**
      * @param \DateTime|null $insertDate
@@ -117,7 +83,7 @@ class Page implements \JsonSerializable
     }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('parentId' => $this->parentId, 'status' => $this->status, 'sort' => $this->sort, 'title' => $this->title, 'blocks' => $this->blocks, 'insertDate' => $this->insertDate), static function ($value) : bool {
+        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
             return $value !== null;
         });
     }

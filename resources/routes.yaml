@@ -2,3 +2,5 @@
 "/page/:page_id": !include resources/routes/page/entity.yaml
 "/post": !include resources/routes/post/collection.yaml
 "/post/:post_id": !include resources/routes/post/entity.yaml
+"/comment": !include resources/routes/comment/collection.yaml
+"/comment/:comment_id": !include resources/routes/comment/entity.yaml

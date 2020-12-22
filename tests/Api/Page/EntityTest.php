@@ -61,8 +61,7 @@ JSON;
 
     public function testPut()
     {
-        $blocks   = $this->getBlocks();
-        $body     = json_encode(['title' => 'foo', 'blocks' => $blocks]);
+        $body     = json_encode(['refId' => 2, 'title' => 'foo', 'content' => 'barbar']);
         $response = $this->sendRequest('/page/2', 'PUT', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
@@ -72,7 +71,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Page successful updated"
+    "message": "Page successful updated",
+    "id": 2
 }
 JSON;
 
@@ -81,11 +81,11 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title, data FROM app_page WHERE id = :id', ['id' => 2]);
+        $actual = $connection->fetchAssoc('SELECT ref_id, title, content FROM app_page WHERE id = :id', ['id' => 2]);
         $expect = [
-            'id' => 2,
+            'ref_id' => 2,
             'title' => 'foo',
-            'data' => json_encode($blocks),
+            'content' => 'barbar',
         ];
 
         $this->assertEquals($expect, $actual);
@@ -102,7 +102,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Page successful deleted"
+    "message": "Page successful deleted",
+    "id": 2
 }
 JSON;
 
@@ -111,24 +112,9 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, status, title FROM app_page WHERE id = 2');
+        $actual = $connection->fetchAssoc('SELECT id, title FROM app_page WHERE id = 2');
         $expect = null;
 
         $this->assertEquals($expect, $actual);
-    }
-
-    private function getBlocks(): array
-    {
-        $blocks = [];
-        $blocks[] = [
-            'type' => 'headline',
-            'content' => 'Foobar',
-        ];
-        $blocks[] = [
-            'type' => 'paragraph',
-            'content' => 'Lorem ipsum',
-        ];
-
-        return $blocks;
     }
 }

@@ -1,0 +1,108 @@
+{
+  "status": 4,
+  "path": "\/comment\/:comment_id",
+  "pathParameters": "CommentComment_idPath",
+  "methods": {
+    "GET": {
+      "operationId": "get.comment.comment_id",
+      "description": "Returns a single comment",
+      "tags": [
+        "comment",
+        "testing"
+      ],
+      "responses": {
+        "200": "App_Model_Comment",
+        "500": "App_Model_Message"
+      }
+    },
+    "PUT": {
+      "operationId": "put.comment.comment_id",
+      "description": "Updates a single comment",
+      "security": {
+        "app": [
+          "comment",
+          "testing"
+        ]
+      },
+      "tags": [
+        "comment",
+        "testing"
+      ],
+      "request": "App_Model_Comment",
+      "responses": {
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
+      }
+    },
+    "DELETE": {
+      "operationId": "delete.comment.comment_id",
+      "description": "Removes a specific comment",
+      "security": {
+        "app": [
+          "comment",
+          "testing"
+        ]
+      },
+      "tags": [
+        "comment",
+        "testing"
+      ],
+      "request": "Passthru",
+      "responses": {
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
+      }
+    }
+  },
+  "definitions": {
+    "App_Model_Comment": {
+      "$ref": "Comment"
+    },
+    "App_Model_Message": {
+      "$ref": "Message"
+    },
+    "Comment": {
+      "description": "A specific comment",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
+        },
+        "insertDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "CommentComment_idPath": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "description": "Contains a message whether the operation was successful or not",
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "Passthru": {
+      "description": "No schema information available",
+      "type": "object"
+    }
+  }
+}

@@ -4,13 +4,15 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
-
+/**
+ * @Description("A specific post")
+ */
 class Post implements \JsonSerializable
 {
     /**
      * @var int|null
      */
-    protected $pageId;
+    protected $refId;
     /**
      * @var string|null
      */
@@ -28,18 +30,18 @@ class Post implements \JsonSerializable
      */
     protected $insertDate;
     /**
-     * @param int|null $pageId
+     * @param int|null $refId
      */
-    public function setPageId(?int $pageId) : void
+    public function setRefId(?int $refId) : void
     {
-        $this->pageId = $pageId;
+        $this->refId = $refId;
     }
     /**
      * @return int|null
      */
-    public function getPageId() : ?int
+    public function getRefId() : ?int
     {
-        return $this->pageId;
+        return $this->refId;
     }
     /**
      * @param string|null $title
@@ -99,7 +101,7 @@ class Post implements \JsonSerializable
     }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('pageId' => $this->pageId, 'title' => $this->title, 'summary' => $this->summary, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
+        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'summary' => $this->summary, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
             return $value !== null;
         });
     }

@@ -6,6 +6,7 @@ namespace App\Model;
 
 /**
  * @extends Collection<Post>
+ * @Description("A collection of posts")
  */
 class Post_Collection extends Collection
 {

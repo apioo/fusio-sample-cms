@@ -10,3 +10,9 @@ post_updated:
   description: 'Post was updated'
 post_deleted:
   description: 'Post was deleted'
+comment_created:
+  description: 'Comment was created'
+comment_updated:
+  description: 'Comment was updated'
+comment_deleted:
+  description: 'Comment was deleted'

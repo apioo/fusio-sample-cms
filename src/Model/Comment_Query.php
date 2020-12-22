@@ -5,31 +5,31 @@ declare(strict_types = 1);
 namespace App\Model;
 
 /**
- * @Required({"type", "content"})
+ * @Description("Query parameters for a comment")
  */
-class Block_Paragraph implements \JsonSerializable
+class Comment_Query implements \JsonSerializable
 {
     /**
-     * @var string|null
+     * @var int|null
      */
-    protected $type = 'paragraph';
+    protected $refId;
     /**
      * @var string|null
      */
     protected $content;
     /**
-     * @param string|null $type
+     * @param int|null $refId
      */
-    public function setType(?string $type) : void
+    public function setRefId(?int $refId) : void
     {
-        $this->type = $type;
+        $this->refId = $refId;
     }
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getType() : ?string
+    public function getRefId() : ?int
     {
-        return $this->type;
+        return $this->refId;
     }
     /**
      * @param string|null $content
@@ -47,7 +47,7 @@ class Block_Paragraph implements \JsonSerializable
     }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('type' => $this->type, 'content' => $this->content), static function ($value) : bool {
+        return (object) array_filter(array('refId' => $this->refId, 'content' => $this->content), static function ($value) : bool {
             return $value !== null;
         });
     }

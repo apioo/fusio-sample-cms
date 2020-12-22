@@ -45,6 +45,7 @@
       "$ref": "Post_Collection"
     },
     "Collection": {
+      "description": "A collection of things",
       "type": "object",
       "properties": {
         "totalResults": {
@@ -59,6 +60,7 @@
       }
     },
     "Message": {
+      "description": "Contains a message whether the operation was successful or not",
       "type": "object",
       "properties": {
         "success": {
@@ -66,13 +68,17 @@
         },
         "message": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         }
       }
     },
     "Post": {
+      "description": "A specific post",
       "type": "object",
       "properties": {
-        "pageId": {
+        "refId": {
           "type": "integer"
         },
         "title": {
@@ -91,6 +97,7 @@
       }
     },
     "Post_Collection": {
+      "description": "A collection of posts",
       "$ref": "Collection",
       "$template": {
         "T": "Post"

@@ -61,64 +61,8 @@
     "App_Model_Page": {
       "$ref": "Page"
     },
-    "Block_Code": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "const": "code",
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    },
-    "Block_Headline": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "const": "headline",
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    },
-    "Block_Image": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "const": "image",
-          "type": "string"
-        },
-        "src": {
-          "type": "string"
-        }
-      }
-    },
-    "Block_Paragraph": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "const": "paragraph",
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    },
-    "Block_Post": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "const": "post",
-          "type": "string"
-        }
-      }
-    },
     "Message": {
+      "description": "Contains a message whether the operation was successful or not",
       "type": "object",
       "properties": {
         "success": {
@@ -126,45 +70,24 @@
         },
         "message": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         }
       }
     },
     "Page": {
+      "description": "A specific page",
       "type": "object",
       "properties": {
-        "parentId": {
-          "type": "integer"
-        },
-        "status": {
-          "type": "integer"
-        },
-        "sort": {
+        "refId": {
           "type": "integer"
         },
         "title": {
           "type": "string"
         },
-        "blocks": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "$ref": "Block_Code"
-              },
-              {
-                "$ref": "Block_Headline"
-              },
-              {
-                "$ref": "Block_Image"
-              },
-              {
-                "$ref": "Block_Paragraph"
-              },
-              {
-                "$ref": "Block_Post"
-              }
-            ]
-          }
+        "content": {
+          "type": "string"
         },
         "insertDate": {
           "format": "date-time",

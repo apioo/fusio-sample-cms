@@ -62,6 +62,7 @@
       "$ref": "Post"
     },
     "Message": {
+      "description": "Contains a message whether the operation was successful or not",
       "type": "object",
       "properties": {
         "success": {
@@ -69,6 +70,9 @@
         },
         "message": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         }
       }
     },
@@ -77,9 +81,10 @@
       "type": "object"
     },
     "Post": {
+      "description": "A specific post",
       "type": "object",
       "properties": {
-        "pageId": {
+        "refId": {
           "type": "integer"
         },
         "title": {
