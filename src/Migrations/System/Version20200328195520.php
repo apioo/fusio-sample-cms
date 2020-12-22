@@ -15,14 +15,13 @@ final class Version20200328195520 extends AbstractMigration
         $date = new \DateTime();
 
         $pages = [
-            [null, 1, 0, 'Home', \json_encode([['type' => 'headline', 'content' => 'Home'], ['type' => 'paragraph', 'content' => '<p>Hello World!</p>']]), $date->format('Y-m-d H:i:s')],
-            [null, 1, 1, 'Blog', \json_encode([['type' => 'headline', 'content' => 'Blog'], ['type' => 'post']]), $date->format('Y-m-d H:i:s')],
-            [null, 1, 2, 'About', \json_encode([['type' => 'headline', 'content' => 'About'], ['type' => 'paragraph', 'content' => '<p>About page</p>']]), $date->format('Y-m-d H:i:s')],
-            [2, 1, 0, 'Imprint', \json_encode([['type' => 'headline', 'content' => 'Imprint'], ['type' => 'paragraph', 'content' => '<p>Imprint page</p>']]), $date->format('Y-m-d H:i:s')],
+            [0, 1, 'Home', 'This is a home page', $date->format('Y-m-d H:i:s')],
+            [0, 1, 'Blog', 'This is my super blog page', $date->format('Y-m-d H:i:s')],
+            [0, 1, 'About', 'This is an about page', $date->format('Y-m-d H:i:s')],
         ];
 
         foreach ($pages as $row) {
-            $this->addSql('INSERT INTO app_page (parent_id, user_id, sort, title, data, insert_date) VALUES (?, ?, ?, ?, ?, ?)', $row);
+            $this->addSql('INSERT INTO app_page (ref_id, user_id, title, content, insert_date) VALUES (?, ?, ?, ?, ?)', $row);
         }
 
         $posts = [
@@ -30,7 +29,15 @@ final class Version20200328195520 extends AbstractMigration
         ];
 
         foreach ($posts as $row) {
-            $this->addSql('INSERT INTO app_post (page_id, user_id, title, summary, content, insert_date) VALUES (?, ?, ?, ?, ?, ?)', $row);
+            $this->addSql('INSERT INTO app_post (ref_id, user_id, title, summary, content, insert_date) VALUES (?, ?, ?, ?, ?, ?)', $row);
+        }
+
+        $comments = [
+            [1, 1, 'My comment', $date->format('Y-m-d H:i:s')],
+        ];
+
+        foreach ($comments as $row) {
+            $this->addSql('INSERT INTO app_comment (ref_id, user_id, content, insert_date) VALUES (?, ?, ?, ?)', $row);
         }
     }
 

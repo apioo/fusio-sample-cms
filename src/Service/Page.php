@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Model;
-use Doctrine\DBAL\Connection;
+use App\Repository;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
@@ -21,18 +21,18 @@ use PSX\Http\Exception as StatusCode;
 class Page
 {
     /**
-     * @var Connection
+     * @var Repository\Page
      */
-    private $connection;
+    private $repository;
 
     /**
      * @var DispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(Connection $connection, DispatcherInterface $dispatcher)
+    public function __construct(Repository\Page $repository, DispatcherInterface $dispatcher)
     {
-        $this->connection = $connection;
+        $this->repository = $repository;
         $this->dispatcher = $dispatcher;
     }
 
@@ -40,95 +40,55 @@ class Page
     {
         $this->assertPage($page);
 
-        $this->connection->beginTransaction();
+        $id = $this->repository->insert(
+            $page->getRefId(),
+            $context->getUser()->getId(),
+            $page->getTitle(),
+            $page->getContent()
+        );
 
-        try {
-            $data = [
-                'parent_id' => $page->getParentId(),
-                'user_id' => $context->getUser()->getId(),
-                'title' => $page->getTitle(),
-                'data' => \json_encode($page->getBlocks()),
-                'insert_date' => (new \DateTime())->format('Y-m-d H:i:s'),
-            ];
-
-            $this->connection->insert('app_page', $data);
-            $id = (int) $this->connection->lastInsertId();
-
-            $this->connection->commit();
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not insert a page', $e);
-        }
-
-        $this->dispatchEvent('page_created', $data);
+        $row = $this->repository->findById($id);
+        $this->dispatchEvent('page_created', $row, $id);
 
         return $id;
     }
 
     public function update(int $id, Model\Page $page): int
     {
-        $row = $this->connection->fetchAssoc('SELECT id FROM app_page WHERE id = :id', [
-            'id' => $id,
-        ]);
-
+        $row = $this->repository->findById($id);
         if (empty($row)) {
             throw new StatusCode\NotFoundException('Provided page does not exist');
         }
 
         $this->assertPage($page);
 
-        $this->connection->beginTransaction();
+        $this->repository->update($id, $page->getRefId(), $page->getTitle(), $page->getContent());
 
-        try {
-            $data = [
-                'parent_id' => $page->getParentId(),
-                'title' => $page->getTitle(),
-                'data' => \json_encode($page->getBlocks()),
-            ];
-
-            $this->connection->update('app_page', $data, ['id' => $id]);
-
-            $this->connection->commit();
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not update a page', $e);
-        }
-
-        $this->dispatchEvent('page_updated', $data, $id);
+        $row = $this->repository->findById($id);
+        $this->dispatchEvent('page_updated', $row, $id);
 
         return $id;
     }
 
     public function delete(int $id): int
     {
-        $row = $this->connection->fetchAssoc('SELECT id FROM app_page WHERE id = :id', [
-            'id' => $id,
-        ]);
-
+        $row = $this->repository->findById($id);
         if (empty($row)) {
             throw new StatusCode\NotFoundException('Provided page does not exist');
         }
 
-        try {
-            $this->connection->delete('app_page', ['id' => $id]);
-        } catch (\Throwable $e) {
-            $this->connection->rollBack();
-
-            throw new StatusCode\InternalServerErrorException('Could not delete a page', $e);
-        }
+        $this->repository->delete($id);
 
         $this->dispatchEvent('page_deleted', $row, $id);
 
         return $id;
     }
 
-    private function dispatchEvent(string $type, array $data, ?int $id = null)
+    private function dispatchEvent(string $type, array $data, int $id)
     {
         $event = (new Builder())
             ->withId(Uuid::pseudoRandom())
-            ->withSource($id !== null ? '/page/' . $id : '/page')
+            ->withSource('/page/' . $id)
             ->withType($type)
             ->withDataContentType('application/json')
             ->withData($data)
@@ -144,9 +104,9 @@ class Page
             throw new StatusCode\BadRequestException('No title provided');
         }
 
-        $blocks = $page->getBlocks();
-        if (empty($blocks)) {
-            throw new StatusCode\BadRequestException('No blocks provided');
+        $content = $page->getContent();
+        if (empty($content)) {
+            throw new StatusCode\BadRequestException('No content provided');
         }
     }
 }

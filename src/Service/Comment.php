@@ -14,10 +14,10 @@ use PSX\Http\Exception as StatusCode;
  * Post service which is responsible to create, update and delete a post. Please
  * take a look at the page service for more details
  */
-class Post
+class Comment
 {
     /**
-     * @var Repository\Post
+     * @var Repository\Comment
      */
     private $repository;
 
@@ -26,49 +26,41 @@ class Post
      */
     private $dispatcher;
 
-    public function __construct(Repository\Post $repository, DispatcherInterface $dispatcher)
+    public function __construct(Repository\Comment $repository, DispatcherInterface $dispatcher)
     {
         $this->repository = $repository;
         $this->dispatcher = $dispatcher;
     }
 
-    public function create(Model\Post $post, ContextInterface $context): int
+    public function create(Model\Comment $comment, ContextInterface $context): int
     {
-        $this->assertPost($post);
+        $this->assertComment($comment);
 
         $id = $this->repository->insert(
-            $post->getRefId(),
+            $comment->getRefId(),
             $context->getUser()->getId(),
-            $post->getTitle(),
-            $post->getSummary(),
-            $post->getContent()
+            $comment->getContent()
         );
 
         $row = $this->repository->findById($id);
-        $this->dispatchEvent('post_created', $row, $id);
+        $this->dispatchEvent('comment_created', $row, $id);
 
         return $id;
     }
 
-    public function update(int $id, Model\Post $post): int
+    public function update(int $id, Model\Comment $comment): int
     {
         $row = $this->repository->findById($id);
         if (empty($row)) {
             throw new StatusCode\NotFoundException('Provided post does not exist');
         }
 
-        $this->assertPost($post);
+        $this->assertComment($comment);
 
-        $id = $this->repository->update(
-            $id,
-            $post->getRefId(),
-            $post->getTitle(),
-            $post->getSummary(),
-            $post->getContent()
-        );
+        $this->repository->update($id, $comment->getRefId(), $comment->getContent());
 
         $row = $this->repository->findById($id);
-        $this->dispatchEvent('post_updated', $row, $id);
+        $this->dispatchEvent('comment_updated', $row, $id);
 
         return $id;
     }
@@ -82,7 +74,7 @@ class Post
 
         $this->repository->delete($id);
 
-        $this->dispatchEvent('post_deleted', $row, $id);
+        $this->dispatchEvent('comment_deleted', $row, $id);
 
         return $id;
     }
@@ -91,7 +83,7 @@ class Post
     {
         $event = (new Builder())
             ->withId(Uuid::pseudoRandom())
-            ->withSource('/post/' . $id)
+            ->withSource('/comment/' . $id)
             ->withType($type)
             ->withDataContentType('application/json')
             ->withData($data)
@@ -100,18 +92,8 @@ class Post
         $this->dispatcher->dispatch($type, $event);
     }
 
-    private function assertPost(Model\Post $post)
+    private function assertComment(Model\Comment $post)
     {
-        $title = $post->getTitle();
-        if (empty($title)) {
-            throw new StatusCode\BadRequestException('No title provided');
-        }
-
-        $summary = $post->getSummary();
-        if (empty($summary)) {
-            throw new StatusCode\BadRequestException('No summary provided');
-        }
-
         $content = $post->getContent();
         if (empty($content)) {
             throw new StatusCode\BadRequestException('No content provided');

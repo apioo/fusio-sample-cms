@@ -5,9 +5,9 @@ declare(strict_types = 1);
 namespace App\Model;
 
 /**
- * @Description("A specific post")
+ * @Description("Query parameters for a page")
  */
-class Post implements \JsonSerializable
+class Page_Query implements \JsonSerializable
 {
     /**
      * @var int|null
@@ -20,15 +20,7 @@ class Post implements \JsonSerializable
     /**
      * @var string|null
      */
-    protected $summary;
-    /**
-     * @var string|null
-     */
     protected $content;
-    /**
-     * @var \DateTime|null
-     */
-    protected $insertDate;
     /**
      * @param int|null $refId
      */
@@ -58,20 +50,6 @@ class Post implements \JsonSerializable
         return $this->title;
     }
     /**
-     * @param string|null $summary
-     */
-    public function setSummary(?string $summary) : void
-    {
-        $this->summary = $summary;
-    }
-    /**
-     * @return string|null
-     */
-    public function getSummary() : ?string
-    {
-        return $this->summary;
-    }
-    /**
      * @param string|null $content
      */
     public function setContent(?string $content) : void
@@ -85,23 +63,9 @@ class Post implements \JsonSerializable
     {
         return $this->content;
     }
-    /**
-     * @param \DateTime|null $insertDate
-     */
-    public function setInsertDate(?\DateTime $insertDate) : void
-    {
-        $this->insertDate = $insertDate;
-    }
-    /**
-     * @return \DateTime|null
-     */
-    public function getInsertDate() : ?\DateTime
-    {
-        return $this->insertDate;
-    }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'summary' => $this->summary, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
+        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'content' => $this->content), static function ($value) : bool {
             return $value !== null;
         });
     }

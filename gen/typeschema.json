@@ -1,6 +1,7 @@
 {
   "definitions": {
     "Collection": {
+      "description": "A collection of things",
       "type": "object",
       "properties": {
         "totalResults": {
@@ -15,6 +16,7 @@
       }
     },
     "Message": {
+      "description": "Contains a message whether the operation was successful or not",
       "type": "object",
       "properties": {
         "success": {
@@ -22,45 +24,24 @@
         },
         "message": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         }
       }
     },
-    "Page_Collection": {
-      "$ref": "Collection",
-      "$template": {
-        "T": "Page"
-      }
-    },
     "Page": {
+      "description": "A specific page",
       "type": "object",
       "properties": {
-        "parentId": {
-          "type": "integer"
-        },
-        "status": {
-          "type": "integer"
-        },
-        "sort": {
+        "refId": {
           "type": "integer"
         },
         "title": {
           "type": "string"
         },
-        "blocks": {
-          "type": "array",
-          "items": {
-            "oneOf": [{
-              "$ref": "Block_Code"
-            }, {
-              "$ref": "Block_Headline"
-            }, {
-              "$ref": "Block_Image"
-            }, {
-              "$ref": "Block_Paragraph"
-            }, {
-              "$ref": "Block_Post"
-            }]
-          }
+        "content": {
+          "type": "string"
         },
         "insertDate": {
           "type": "string",
@@ -68,78 +49,33 @@
         }
       }
     },
-    "Block_Code": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "code"
-        },
-        "content": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "content"]
-    },
-    "Block_Headline": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "headline"
-        },
-        "content": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "content"]
-    },
-    "Block_Image": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "image"
-        },
-        "src": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "src"]
-    },
-    "Block_Paragraph": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "paragraph"
-        },
-        "content": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "content"]
-    },
-    "Block_Post": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "post"
-        }
-      },
-      "required": ["type"]
-    },
-    "Post_Collection": {
+    "Page_Collection": {
+      "description": "A collection of all pages",
       "$ref": "Collection",
       "$template": {
-        "T": "Post"
+        "T": "Page"
+      }
+    },
+    "Page_Query": {
+      "description": "Query parameters for a page",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
       }
     },
     "Post": {
+      "description": "A specific post",
       "type": "object",
       "properties": {
-        "pageId": {
+        "refId": {
           "type": "integer"
         },
         "title": {
@@ -154,6 +90,66 @@
         "insertDate": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "Post_Collection": {
+      "description": "A collection of posts",
+      "$ref": "Collection",
+      "$template": {
+        "T": "Post"
+      }
+    },
+    "Post_Query": {
+      "description": "Query parameters for a post",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "description": "A specific comment",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
+        },
+        "insertDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Comment_Collection": {
+      "description": "A collection of comments",
+      "$ref": "Collection",
+      "$template": {
+        "T": "Comment"
+      }
+    },
+    "Comment_Query": {
+      "description": "Query parameters for a comment",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
         }
       }
     }

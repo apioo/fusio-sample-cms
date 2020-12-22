@@ -7,7 +7,7 @@ methods:
     responses: 
       200: "App\\Model\\Post_Collection"
       500: "App\\Model\\Message"
-    action: "App\\Action\\Post\\Collection"
+    action: "App\\Action\\Post\\GetAll"
   POST:
     public: false
     description: "Creates a new post"

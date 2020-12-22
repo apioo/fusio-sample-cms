@@ -2,6 +2,7 @@
 
 namespace App\Action\Post;
 
+use App\Model\Message;
 use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
@@ -29,20 +30,20 @@ class Delete extends ActionAbstract
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $id = (int) $request->getUriFragment('post_id');
+            $id = $this->postService->delete(
+                (int) $request->get('post_id')
+            );
 
-            $this->postService->delete($id);
-
-            $body = [
-                'success' => true,
-                'message' => 'Post successful deleted'
-            ];
+            $message = new Message();
+            $message->setSuccess(true);
+            $message->setMessage('Post successful deleted');
+            $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new InternalServerErrorException($e->getMessage());
         }
 
-        return $this->response->build(200, [], $body);
+        return $this->response->build(200, [], $message);
     }
 }

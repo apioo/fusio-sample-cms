@@ -13,7 +13,7 @@ use PSX\Sql\Condition;
  * Action which returns a collection response of all pages. It shows how to
  * build complex nested JSON structures based on SQL queries
  */
-class Collection extends SqlBuilderAbstract
+class GetAll extends SqlBuilderAbstract
 {
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
@@ -21,28 +21,25 @@ class Collection extends SqlBuilderAbstract
         $connection = $this->connector->getConnection('System');
         $builder    = new Builder($connection);
 
-        $startIndex = (int) $request->getParameter('startIndex');
+        $startIndex = (int) $request->get('startIndex');
         $startIndex = $startIndex <= 0 ? 0 : $startIndex;
         $condition  = $this->getCondition($request);
 
         $sql = 'SELECT page.id,
-                       page.parent_id,
-                       page.status,
+                       page.ref_id,
                        page.title,
                        page.insert_date
                   FROM app_page page
-                 WHERE page.status = 1
-                   AND ' . $condition->getExpression($connection->getDatabasePlatform()) . '
+                 WHERE ' . $condition->getExpression($connection->getDatabasePlatform()) . '
               ORDER BY page.sort ASC';
 
         $parameters = array_merge($condition->getValues(), ['startIndex' => $startIndex]);
         $definition = [
-            'totalResults' => $builder->doValue('SELECT COUNT(*) AS cnt FROM app_page WHERE status = 1', [], $builder->fieldInteger('cnt')),
+            'totalResults' => $builder->doValue('SELECT COUNT(*) AS cnt FROM app_page', [], $builder->fieldInteger('cnt')),
             'startIndex' => $startIndex,
             'entries' => $builder->doCollection($sql, $parameters, [
                 'id' => $builder->fieldInteger('id'),
-                'parentId' => $builder->fieldInteger('parent_id'),
-                'status' => $builder->fieldInteger('status'),
+                'refId' => $builder->fieldInteger('ref_id'),
                 'title' => 'title',
                 'insertDate' => $builder->fieldDateTime('insert_date'),
                 'links' => [
@@ -54,28 +51,23 @@ class Collection extends SqlBuilderAbstract
         return $this->response->build(200, [], $builder->build($definition));
     }
 
-    private function getCondition(RequestInterface $request)
+    private function getCondition(RequestInterface $request): Condition
     {
-        $parameters = $request->getParameters();
         $condition  = new Condition();
 
-        foreach ($parameters as $name => $value) {
-            switch ($name) {
-                case 'parent':
-                    $condition->equals('page.parent_id', (int) $value);
-                    break;
-                case 'title':
-                    $condition->like('page.title', '%' . $value . '%');
-                    break;
-                case 'content':
-                    $condition->like('page.content', '%' . $value . '%');
-                    break;
-            }
+        $ref = $request->get('refId');
+        if (!empty($ref)) {
+            $condition->equals('comment.ref_id', (int) $ref);
         }
 
-        if (!isset($parameters['parent'])) {
-            // in case we have no parent only get the pages without parent
-            $condition->nil('page.parent_id');
+        $title = $request->get('title');
+        if (!empty($title)) {
+            $condition->like('comment.title', '%' . $title . '%');
+        }
+
+        $content = $request->get('content');
+        if (!empty($content)) {
+            $condition->like('comment.content', '%' . $content . '%');
         }
 
         return $condition;

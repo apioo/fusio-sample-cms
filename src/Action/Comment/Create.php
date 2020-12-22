@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Action\Page;
+namespace App\Action\Comment;
 
 use App\Model\Message;
-use App\Service\Page;
+use App\Service\Comment;
+use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
@@ -12,31 +13,32 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which deletes a page. Similar to the create action it only invokes the
- * page service to delete a specific page
+ * Action which creates a comment. Similar to the page create action it only
+ * invokes the comment service to create a specific comment
  */
-class Delete extends ActionAbstract
+class Create extends ActionAbstract
 {
     /**
-     * @var Page
+     * @var Comment
      */
-    private $pageService;
+    private $commentService;
 
-    public function __construct(Page $pageService)
+    public function __construct(Comment $commentService)
     {
-        $this->pageService = $pageService;
+        $this->commentService = $commentService;
     }
 
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $id = $this->pageService->delete(
-                (int) $request->get('page_id')
+            $id = $this->commentService->create(
+                $request->getPayload(),
+                $context
             );
 
             $message = new Message();
             $message->setSuccess(true);
-            $message->setMessage('Page successful deleted');
+            $message->setMessage('Comment successful created');
             $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;
@@ -44,6 +46,6 @@ class Delete extends ActionAbstract
             throw new InternalServerErrorException($e->getMessage());
         }
 
-        return $this->response->build(200, [], $message);
+        return $this->response->build(201, [], $message);
     }
 }

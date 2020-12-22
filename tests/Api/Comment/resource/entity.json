@@ -1,0 +1,109 @@
+{
+  "status": 4,
+  "path": "\/post\/:post_id",
+  "pathParameters": "PostPost_idPath",
+  "methods": {
+    "GET": {
+      "operationId": "get.post.post_id",
+      "description": "Returns a single post",
+      "tags": [
+        "post",
+        "testing"
+      ],
+      "responses": {
+        "200": "App_Model_Post",
+        "500": "App_Model_Message"
+      }
+    },
+    "PUT": {
+      "operationId": "put.post.post_id",
+      "description": "Updates a single post",
+      "security": {
+        "app": [
+          "post",
+          "testing"
+        ]
+      },
+      "tags": [
+        "post",
+        "testing"
+      ],
+      "request": "App_Model_Post",
+      "responses": {
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
+      }
+    },
+    "DELETE": {
+      "operationId": "delete.post.post_id",
+      "description": "Removes a specific post",
+      "security": {
+        "app": [
+          "post",
+          "testing"
+        ]
+      },
+      "tags": [
+        "post",
+        "testing"
+      ],
+      "request": "Passthru",
+      "responses": {
+        "200": "App_Model_Message",
+        "500": "App_Model_Message"
+      }
+    }
+  },
+  "definitions": {
+    "App_Model_Message": {
+      "$ref": "Message"
+    },
+    "App_Model_Post": {
+      "$ref": "Post"
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Passthru": {
+      "description": "No schema information available",
+      "type": "object"
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "insertDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "PostPost_idPath": {
+      "type": "object",
+      "properties": {
+        "post_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

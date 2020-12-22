@@ -7,7 +7,7 @@ methods:
     responses: 
       200: "App\\Model\\Page_Collection"
       500: "App\\Model\\Message"
-    action: "App\\Action\\Page\\Collection"
+    action: "App\\Action\\Page\\GetAll"
   POST:
     public: false
     description: "Creates a new page"

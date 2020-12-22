@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Action\Page;
+namespace App\Action\Comment;
 
 use App\Model\Message;
-use App\Service\Page;
+use App\Service\Comment;
+use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
@@ -12,31 +13,32 @@ use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which deletes a page. Similar to the create action it only invokes the
- * page service to delete a specific page
+ * Action which updates a post. Similar to the create action it only invokes the
+ * post service to update a specific post
  */
-class Delete extends ActionAbstract
+class Update extends ActionAbstract
 {
     /**
-     * @var Page
+     * @var Comment
      */
-    private $pageService;
+    private $commentService;
 
-    public function __construct(Page $pageService)
+    public function __construct(Comment $commentService)
     {
-        $this->pageService = $pageService;
+        $this->commentService = $commentService;
     }
 
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
     {
         try {
-            $id = $this->pageService->delete(
-                (int) $request->get('page_id')
+            $id = $this->commentService->update(
+                (int) $request->get('comment_id'),
+                $request->getPayload()
             );
 
             $message = new Message();
             $message->setSuccess(true);
-            $message->setMessage('Page successful deleted');
+            $message->setMessage('Comment successful updated');
             $message->setId($id);
         } catch (StatusCodeException $e) {
             throw $e;

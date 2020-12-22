@@ -1,0 +1,19 @@
+version: 1
+scopes: ["comment"]
+methods:
+  GET:
+    public: true
+    description: "Returns all available comments"
+    parameters: "App\\Model\\Comment_Query"
+    responses: 
+      200: "App\\Model\\Comment_Collection"
+      500: "App\\Model\\Message"
+    action: "App\\Action\\Comment\\GetAll"
+  POST:
+    public: false
+    description: "Creates a new comment"
+    request: "App\\Model\\Comment"
+    responses: 
+      201: "App\\Model\\Message"
+      500: "App\\Model\\Message"
+    action: "App\\Action\\Comment\\Create"

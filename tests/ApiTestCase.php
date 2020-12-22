@@ -46,7 +46,7 @@ abstract class ApiTestCase extends ControllerDbTestCase
         parent::setUp();
 
         // set debug mode to false
-        Environment::getService('config')->set('psx_debug', false);
+        Environment::getService('config')->set('psx_debug', true);
 
         // run deploy
         /** @var Deploy $deploy */

@@ -5,22 +5,14 @@ declare(strict_types = 1);
 namespace App\Model;
 
 /**
- * @Description("A specific post")
+ * @Description("A specific comment")
  */
-class Post implements \JsonSerializable
+class Comment implements \JsonSerializable
 {
     /**
      * @var int|null
      */
     protected $refId;
-    /**
-     * @var string|null
-     */
-    protected $title;
-    /**
-     * @var string|null
-     */
-    protected $summary;
     /**
      * @var string|null
      */
@@ -42,34 +34,6 @@ class Post implements \JsonSerializable
     public function getRefId() : ?int
     {
         return $this->refId;
-    }
-    /**
-     * @param string|null $title
-     */
-    public function setTitle(?string $title) : void
-    {
-        $this->title = $title;
-    }
-    /**
-     * @return string|null
-     */
-    public function getTitle() : ?string
-    {
-        return $this->title;
-    }
-    /**
-     * @param string|null $summary
-     */
-    public function setSummary(?string $summary) : void
-    {
-        $this->summary = $summary;
-    }
-    /**
-     * @return string|null
-     */
-    public function getSummary() : ?string
-    {
-        return $this->summary;
     }
     /**
      * @param string|null $content
@@ -101,7 +65,7 @@ class Post implements \JsonSerializable
     }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'summary' => $this->summary, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
+        return (object) array_filter(array('refId' => $this->refId, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
             return $value !== null;
         });
     }

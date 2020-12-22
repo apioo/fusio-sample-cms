@@ -1,0 +1,100 @@
+{
+  "status": 4,
+  "path": "\/post",
+  "methods": {
+    "GET": {
+      "operationId": "get.post",
+      "description": "Returns all available posts",
+      "tags": [
+        "post",
+        "testing"
+      ],
+      "responses": {
+        "200": "App_Model_Post_Collection",
+        "500": "App_Model_Message"
+      }
+    },
+    "POST": {
+      "operationId": "post.post",
+      "description": "Creates a new post",
+      "security": {
+        "app": [
+          "post",
+          "testing"
+        ]
+      },
+      "tags": [
+        "post",
+        "testing"
+      ],
+      "request": "App_Model_Post",
+      "responses": {
+        "201": "App_Model_Message",
+        "500": "App_Model_Message"
+      }
+    }
+  },
+  "definitions": {
+    "App_Model_Message": {
+      "$ref": "Message"
+    },
+    "App_Model_Post": {
+      "$ref": "Post"
+    },
+    "App_Model_Post_Collection": {
+      "$ref": "Post_Collection"
+    },
+    "Collection": {
+      "type": "object",
+      "properties": {
+        "totalResults": {
+          "type": "integer"
+        },
+        "entry": {
+          "type": "array",
+          "items": {
+            "$generic": "T"
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "insertDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "Post_Collection": {
+      "$ref": "Collection",
+      "$template": {
+        "T": "Post"
+      }
+    }
+  }
+}

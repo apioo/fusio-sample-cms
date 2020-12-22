@@ -4,7 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
-
+/**
+ * @Description("Contains a message whether the operation was successful or not")
+ */
 class Message implements \JsonSerializable
 {
     /**
@@ -15,6 +17,10 @@ class Message implements \JsonSerializable
      * @var string|null
      */
     protected $message;
+    /**
+     * @var int|null
+     */
+    protected $id;
     /**
      * @param bool|null $success
      */
@@ -43,9 +49,23 @@ class Message implements \JsonSerializable
     {
         return $this->message;
     }
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id) : void
+    {
+        $this->id = $id;
+    }
+    /**
+     * @return int|null
+     */
+    public function getId() : ?int
+    {
+        return $this->id;
+    }
     public function jsonSerialize()
     {
-        return (object) array_filter(array('success' => $this->success, 'message' => $this->message), static function ($value) : bool {
+        return (object) array_filter(array('success' => $this->success, 'message' => $this->message, 'id' => $this->id), static function ($value) : bool {
             return $value !== null;
         });
     }
