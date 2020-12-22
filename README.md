@@ -12,7 +12,7 @@ website: https://www.fusio-project.org/
 
 ### Installation
 
-* Enter the correct database credentials at the `.env` file
+* Enter the correct database credentials, api host url and apps url ( if you use fusio* apps ) at the `.env` file
 * Run the command `php bin/fusio install`
   * This command install the Fusio tables at the provided database
 * Run the command `php bin/fusio deploy`
