@@ -23,7 +23,7 @@ class Comment
     
     public function findById(int $id)
     {
-        return $this->connection->fetchAssoc('SELECT id FROM app_comment WHERE id = :id', [
+        return $this->connection->fetchAssoc('SELECT id, content, insert_date FROM app_comment WHERE id = :id', [
             'id' => $id,
         ]);
     }

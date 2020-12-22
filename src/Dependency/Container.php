@@ -24,7 +24,7 @@ class Container extends FusioContainer
     public function getPageService(): Service\Page
     {
         return new Service\Page(
-            $this->get('comment_repository'),
+            $this->get('page_repository'),
             $this->get('engine_dispatcher')
         );
     }

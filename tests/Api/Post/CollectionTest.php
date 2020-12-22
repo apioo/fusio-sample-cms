@@ -61,7 +61,7 @@ class CollectionTest extends ApiTestCase
 
     public function testPost()
     {
-        $body     = json_encode(['title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
+        $body     = json_encode(['refId' => 0, 'title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
         $response = $this->sendRequest('/post', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
@@ -71,7 +71,8 @@ class CollectionTest extends ApiTestCase
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Post successful created"
+    "message": "Post successful created",
+    "id": 2
 }
 JSON;
 
@@ -80,9 +81,8 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title, summary, content FROM app_post ORDER BY id DESC LIMIT 1');
+        $actual = $connection->fetchAssoc('SELECT title, summary, content FROM app_post WHERE id = :id', ['id' => 2]);
         $expect = [
-            'id' => 2,
             'title' => 'foo',
             'summary' => 'foo',
             'content' => 'bar',
@@ -104,7 +104,7 @@ JSON;
 {
     "success": false,
     "title": "Internal Server Error",
-    "message": "No title provided"
+    "message": "No ref provided"
 }
 JSON;
 

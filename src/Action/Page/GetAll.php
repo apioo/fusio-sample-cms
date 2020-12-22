@@ -31,7 +31,7 @@ class GetAll extends SqlBuilderAbstract
                        page.insert_date
                   FROM app_page page
                  WHERE ' . $condition->getExpression($connection->getDatabasePlatform()) . '
-              ORDER BY page.sort ASC';
+              ORDER BY page.id DESC';
 
         $parameters = array_merge($condition->getValues(), ['startIndex' => $startIndex]);
         $definition = [

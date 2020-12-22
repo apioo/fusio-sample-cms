@@ -94,6 +94,11 @@ class Comment
 
     private function assertComment(Model\Comment $post)
     {
+        $refId = $post->getRefId();
+        if ($refId === null) {
+            throw new StatusCode\BadRequestException('No ref provided');
+        }
+
         $content = $post->getContent();
         if (empty($content)) {
             throw new StatusCode\BadRequestException('No content provided');

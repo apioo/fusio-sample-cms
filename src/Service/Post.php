@@ -102,6 +102,11 @@ class Post
 
     private function assertPost(Model\Post $post)
     {
+        $refId = $post->getRefId();
+        if ($refId === null) {
+            throw new StatusCode\BadRequestException('No ref provided');
+        }
+
         $title = $post->getTitle();
         if (empty($title)) {
             throw new StatusCode\BadRequestException('No title provided');

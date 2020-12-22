@@ -36,6 +36,9 @@ class Fixture
         $dataBag->addAppScope('Backend', 'testing');
         $dataBag->addAppToken('Backend', 'Administrator', 'da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf', '', implode(',', $scopes), $expire->format('Y-m-d H:i:s'), '2015-06-25 22:49:09');
         $dataBag->addUserScope('Administrator', 'testing');
+        $dataBag->addEvent('default', 'comment_created', '');
+        $dataBag->addEvent('default', 'comment_updated', '');
+        $dataBag->addEvent('default', 'comment_deleted', '');
         $dataBag->addEvent('default', 'page_created', '');
         $dataBag->addEvent('default', 'page_updated', '');
         $dataBag->addEvent('default', 'page_deleted', '');
@@ -43,26 +46,20 @@ class Fixture
         $dataBag->addEvent('default', 'post_updated', '');
         $dataBag->addEvent('default', 'post_deleted', '');
 
-        /*
         $dataBag->addTable('app_page', [
-            [0, 1, 'Home', 'This is a home page', $date->format('Y-m-d H:i:s')],
-            [0, 1, 'Blog', 'This is my super blog page', $date->format('Y-m-d H:i:s')],
-            [0, 1, 'About', 'This is an about page', $date->format('Y-m-d H:i:s')],
+            ['ref_id' => 0, 'user_id' => 1, 'title' => 'Home', 'content' => 'Home page', 'insert_date' => '2020-04-09 19:49:00'],
+            ['ref_id' => 0, 'user_id' => 1, 'title' => 'Blog', 'content' => 'Blog page', 'insert_date' => '2020-04-09 19:49:00'],
+            ['ref_id' => 0, 'user_id' => 1, 'title' => 'About', 'content' => 'About page', 'insert_date' => '2020-04-09 19:49:00'],
+            ['ref_id' => 2, 'user_id' => 1, 'title' => 'Imprint', 'content' => 'Imprint page', 'insert_date' => '2020-04-09 19:49:00'],
         ]);
 
         $dataBag->addTable('app_post', [
-
+            ['ref_id' => 2, 'user_id' => 1, 'title' => 'My Post', 'summary' => 'Lorem ipsum', 'content' => 'Lorem ipsum', 'insert_date' => '2020-04-09 19:49:00'],
         ]);
 
         $dataBag->addTable('app_comment', [
-
+            ['ref_id' => 2, 'user_id' => 1, 'content' => 'Lorem ipsum', 'insert_date' => '2020-04-09 19:49:00'],
         ]);
-
-        $inserts = self::getDemoInserts();
-        foreach ($inserts as $tableName => $rows) {
-            $dataBag->addTable($tableName, $rows);
-        }
-        */
     }
 
     public static function getFixture()

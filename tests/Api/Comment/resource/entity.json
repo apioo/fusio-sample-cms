@@ -1,50 +1,50 @@
 {
   "status": 4,
-  "path": "\/post\/:post_id",
-  "pathParameters": "PostPost_idPath",
+  "path": "\/comment\/:comment_id",
+  "pathParameters": "CommentComment_idPath",
   "methods": {
     "GET": {
-      "operationId": "get.post.post_id",
-      "description": "Returns a single post",
+      "operationId": "get.comment.comment_id",
+      "description": "Returns a single comment",
       "tags": [
-        "post",
+        "comment",
         "testing"
       ],
       "responses": {
-        "200": "App_Model_Post",
+        "200": "App_Model_Comment",
         "500": "App_Model_Message"
       }
     },
     "PUT": {
-      "operationId": "put.post.post_id",
-      "description": "Updates a single post",
+      "operationId": "put.comment.comment_id",
+      "description": "Updates a single comment",
       "security": {
         "app": [
-          "post",
+          "comment",
           "testing"
         ]
       },
       "tags": [
-        "post",
+        "comment",
         "testing"
       ],
-      "request": "App_Model_Post",
+      "request": "App_Model_Comment",
       "responses": {
         "200": "App_Model_Message",
         "500": "App_Model_Message"
       }
     },
     "DELETE": {
-      "operationId": "delete.post.post_id",
-      "description": "Removes a specific post",
+      "operationId": "delete.comment.comment_id",
+      "description": "Removes a specific comment",
       "security": {
         "app": [
-          "post",
+          "comment",
           "testing"
         ]
       },
       "tags": [
-        "post",
+        "comment",
         "testing"
       ],
       "request": "Passthru",
@@ -55,38 +55,18 @@
     }
   },
   "definitions": {
+    "App_Model_Comment": {
+      "$ref": "Comment"
+    },
     "App_Model_Message": {
       "$ref": "Message"
     },
-    "App_Model_Post": {
-      "$ref": "Post"
-    },
-    "Message": {
+    "Comment": {
+      "description": "A specific comment",
       "type": "object",
       "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "Passthru": {
-      "description": "No schema information available",
-      "type": "object"
-    },
-    "Post": {
-      "type": "object",
-      "properties": {
-        "pageId": {
+        "refId": {
           "type": "integer"
-        },
-        "title": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
         },
         "content": {
           "type": "string"
@@ -97,13 +77,32 @@
         }
       }
     },
-    "PostPost_idPath": {
+    "CommentComment_idPath": {
       "type": "object",
       "properties": {
-        "post_id": {
+        "comment_id": {
           "type": "string"
         }
       }
+    },
+    "Message": {
+      "description": "Contains a message whether the operation was successful or not",
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "Passthru": {
+      "description": "No schema information available",
+      "type": "object"
     }
   }
 }

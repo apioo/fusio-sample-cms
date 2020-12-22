@@ -22,7 +22,7 @@ class Post
 
     public function findById(int $id)
     {
-        return $this->connection->fetchAssoc('SELECT id FROM app_post WHERE id = :id', [
+        return $this->connection->fetchAssoc('SELECT id, title, summary, content, insert_date FROM app_post WHERE id = :id', [
             'id' => $id,
         ]);
     }

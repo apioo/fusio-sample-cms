@@ -48,7 +48,7 @@ class CollectionTest extends ApiTestCase
 
     public function testGet()
     {
-        $response = $this->sendRequest('/post', 'GET', [
+        $response = $this->sendRequest('/comment', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -61,8 +61,8 @@ class CollectionTest extends ApiTestCase
 
     public function testPost()
     {
-        $body     = json_encode(['title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
-        $response = $this->sendRequest('/post', 'POST', [
+        $body     = json_encode(['refId' => 2, 'content' => 'bar']);
+        $response = $this->sendRequest('/comment', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
         ], $body);
@@ -71,7 +71,8 @@ class CollectionTest extends ApiTestCase
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Post successful created"
+    "message": "Comment successful created",
+    "id": 2
 }
 JSON;
 
@@ -80,11 +81,8 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title, summary, content FROM app_post ORDER BY id DESC LIMIT 1');
+        $actual = $connection->fetchAssoc('SELECT content FROM app_comment WHERE id = :id', ['id' => 2]);
         $expect = [
-            'id' => 2,
-            'title' => 'foo',
-            'summary' => 'foo',
             'content' => 'bar',
         ];
 
@@ -94,7 +92,7 @@ JSON;
     public function testPostInvalidPayload()
     {
         $body     = json_encode(['foo' => 'foo']);
-        $response = $this->sendRequest('/post', 'POST', [
+        $response = $this->sendRequest('/comment', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
         ], $body);
@@ -104,7 +102,7 @@ JSON;
 {
     "success": false,
     "title": "Internal Server Error",
-    "message": "No title provided"
+    "message": "No ref provided"
 }
 JSON;
 
@@ -114,7 +112,7 @@ JSON;
 
     public function testPut()
     {
-        $response = $this->sendRequest('/post', 'PUT', [
+        $response = $this->sendRequest('/comment', 'PUT', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -133,7 +131,7 @@ JSON;
 
     public function testDelete()
     {
-        $response = $this->sendRequest('/post', 'DELETE', [
+        $response = $this->sendRequest('/comment', 'DELETE', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 

@@ -1,33 +1,34 @@
 {
   "status": 4,
-  "path": "\/post",
+  "path": "\/comment",
   "methods": {
     "GET": {
-      "operationId": "get.post",
-      "description": "Returns all available posts",
+      "operationId": "get.comment",
+      "description": "Returns all available comments",
       "tags": [
-        "post",
+        "comment",
         "testing"
       ],
+      "queryParameters": "App_Model_Comment_Query",
       "responses": {
-        "200": "App_Model_Post_Collection",
+        "200": "App_Model_Comment_Collection",
         "500": "App_Model_Message"
       }
     },
     "POST": {
-      "operationId": "post.post",
-      "description": "Creates a new post",
+      "operationId": "post.comment",
+      "description": "Creates a new comment",
       "security": {
         "app": [
-          "post",
+          "comment",
           "testing"
         ]
       },
       "tags": [
-        "post",
+        "comment",
         "testing"
       ],
-      "request": "App_Model_Post",
+      "request": "App_Model_Comment",
       "responses": {
         "201": "App_Model_Message",
         "500": "App_Model_Message"
@@ -35,16 +36,20 @@
     }
   },
   "definitions": {
+    "App_Model_Comment": {
+      "$ref": "Comment"
+    },
+    "App_Model_Comment_Collection": {
+      "$ref": "Comment_Collection"
+    },
+    "App_Model_Comment_Query": {
+      "$ref": "Comment_Query"
+    },
     "App_Model_Message": {
       "$ref": "Message"
     },
-    "App_Model_Post": {
-      "$ref": "Post"
-    },
-    "App_Model_Post_Collection": {
-      "$ref": "Post_Collection"
-    },
     "Collection": {
+      "description": "A collection of things",
       "type": "object",
       "properties": {
         "totalResults": {
@@ -58,28 +63,12 @@
         }
       }
     },
-    "Message": {
+    "Comment": {
+      "description": "A specific comment",
       "type": "object",
       "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "Post": {
-      "type": "object",
-      "properties": {
-        "pageId": {
+        "refId": {
           "type": "integer"
-        },
-        "title": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
         },
         "content": {
           "type": "string"
@@ -90,10 +79,38 @@
         }
       }
     },
-    "Post_Collection": {
+    "Comment_Collection": {
+      "description": "A collection of comments",
       "$ref": "Collection",
       "$template": {
-        "T": "Post"
+        "T": "Comment"
+      }
+    },
+    "Comment_Query": {
+      "description": "Query parameters for a comment",
+      "type": "object",
+      "properties": {
+        "refId": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "description": "Contains a message whether the operation was successful or not",
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
       }
     }
   }

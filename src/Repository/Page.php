@@ -22,7 +22,7 @@ class Page
 
     public function findById(int $id)
     {
-        return $this->connection->fetchAssoc('SELECT id FROM app_page WHERE id = :id', [
+        return $this->connection->fetchAssoc('SELECT id, title, content, insert_date FROM app_page WHERE id = :id', [
             'id' => $id,
         ]);
     }

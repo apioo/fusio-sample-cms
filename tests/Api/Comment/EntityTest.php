@@ -48,7 +48,7 @@ class EntityTest extends ApiTestCase
 
     public function testGet()
     {
-        $response = $this->sendRequest('/post/1', 'GET', [
+        $response = $this->sendRequest('/comment/1', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -61,7 +61,7 @@ class EntityTest extends ApiTestCase
 
     public function testPost()
     {
-        $response = $this->sendRequest('/post/1', 'POST', [
+        $response = $this->sendRequest('/comment/1', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -80,8 +80,8 @@ JSON;
 
     public function testPut()
     {
-        $body     = json_encode(['title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
-        $response = $this->sendRequest('/post/1', 'PUT', [
+        $body     = json_encode(['refId' => 4, 'content' => 'bar']);
+        $response = $this->sendRequest('/comment/1', 'PUT', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
         ], $body);
@@ -90,7 +90,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Page successful updated"
+    "message": "Comment successful updated",
+    "id": 1
 }
 JSON;
 
@@ -99,11 +100,9 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title, summary, content FROM app_post WHERE id = :id', ['id' => 1]);
+        $actual = $connection->fetchAssoc('SELECT ref_id, content FROM app_comment WHERE id = :id', ['id' => 1]);
         $expect = [
-            'id' => 1,
-            'title' => 'foo',
-            'summary' => 'foo',
+            'ref_id' => 4,
             'content' => 'bar',
         ];
 
@@ -112,7 +111,7 @@ JSON;
 
     public function testDelete()
     {
-        $response = $this->sendRequest('/post/1', 'DELETE', [
+        $response = $this->sendRequest('/comment/1', 'DELETE', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
         ]);
@@ -121,7 +120,8 @@ JSON;
         $expect = <<<'JSON'
 {
     "success": true,
-    "message": "Post successful deleted"
+    "message": "Comment successful deleted",
+    "id": 1
 }
 JSON;
 
@@ -130,7 +130,7 @@ JSON;
 
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, title FROM app_post WHERE id = 1');
+        $actual = $connection->fetchAssoc('SELECT id, content FROM app_comment WHERE id = 1');
         $expect = null;
 
         $this->assertEquals($expect, $actual);

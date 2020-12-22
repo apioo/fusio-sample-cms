@@ -99,6 +99,11 @@ class Page
 
     private function assertPage(Model\Page $page)
     {
+        $refId = $page->getRefId();
+        if ($refId === null) {
+            throw new StatusCode\BadRequestException('No ref provided');
+        }
+
         $title = $page->getTitle();
         if (empty($title)) {
             throw new StatusCode\BadRequestException('No title provided');
