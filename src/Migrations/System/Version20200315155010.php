@@ -25,7 +25,7 @@ final class Version20200315155010 extends AbstractMigration
         $pageTable->addColumn('ref_id', 'integer', ['notnull' => false]);
         $pageTable->addColumn('user_id', 'integer', ['notnull' => false]);
         $pageTable->addColumn('title', 'string');
-        $pageTable->addColumn('content', 'json');
+        $pageTable->addColumn('content', 'text');
         $pageTable->addColumn('insert_date', 'datetime');
         $pageTable->setPrimaryKey(['id']);
 
