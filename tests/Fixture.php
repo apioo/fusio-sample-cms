@@ -15,10 +15,13 @@ use Fusio\Impl\Migrations\NewInstallation;
  */
 class Fixture
 {
+    public const TEST_USERNAME = 'test';
+    public const TEST_PASSWORD = 'test1234';
+
     protected static $dataSet;
 
     /**
-     * Returns the default Fusio system inserts, through this it is i.e.
+     * Appends the default Fusio system inserts, through this it is i.e.
      * possible to add test users or apps which are required for your API. The
      * test token needs the required scopes to access your endpoints
      * 
@@ -30,12 +33,11 @@ class Fixture
         $expire = new \DateTime();
         $expire->add(new \DateInterval('P1M'));
 
-        $scopes = ['testing'];
-
+        $dataBag->addUser('Administrator', self::TEST_USERNAME, 'test@test.com', password_hash(self::TEST_PASSWORD, PASSWORD_DEFAULT));
         $dataBag->addScope('default', 'testing', 'Test scope');
-        $dataBag->addAppScope('Backend', 'testing');
-        $dataBag->addAppToken('Backend', 'Administrator', 'da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf', '', implode(',', $scopes), $expire->format('Y-m-d H:i:s'), '2015-06-25 22:49:09');
-        $dataBag->addUserScope('Administrator', 'testing');
+        $dataBag->addUserScope('test', 'backend');
+        $dataBag->addUserScope('test', 'consumer');
+        $dataBag->addUserScope('test', 'testing');
         $dataBag->addEvent('default', 'comment_created', '');
         $dataBag->addEvent('default', 'comment_updated', '');
         $dataBag->addEvent('default', 'comment_deleted', '');
