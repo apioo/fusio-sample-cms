@@ -103,5 +103,43 @@
         "T": "Post"
       }
     }
-  }
+  },
+  "links": [
+    {
+      "rel": "client-go",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-go\/*\/post"
+    },
+    {
+      "rel": "client-java",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-java\/*\/post"
+    },
+    {
+      "rel": "client-php",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-php\/*\/post"
+    },
+    {
+      "rel": "client-typescript",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-typescript\/*\/post"
+    },
+    {
+      "rel": "markup-html",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/markup-html\/*\/post"
+    },
+    {
+      "rel": "markup-markdown",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/markup-markdown\/*\/post"
+    },
+    {
+      "rel": "spec-typeschema",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-typeschema\/*\/post"
+    },
+    {
+      "rel": "spec-openapi",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-openapi\/*\/post"
+    },
+    {
+      "rel": "spec-raml",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-raml\/*\/post"
+    }
+  ]
 }

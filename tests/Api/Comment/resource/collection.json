@@ -113,5 +113,43 @@
         }
       }
     }
-  }
+  },
+  "links": [
+    {
+      "rel": "client-go",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-go\/*\/comment"
+    },
+    {
+      "rel": "client-java",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-java\/*\/comment"
+    },
+    {
+      "rel": "client-php",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-php\/*\/comment"
+    },
+    {
+      "rel": "client-typescript",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/client-typescript\/*\/comment"
+    },
+    {
+      "rel": "markup-html",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/markup-html\/*\/comment"
+    },
+    {
+      "rel": "markup-markdown",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/markup-markdown\/*\/comment"
+    },
+    {
+      "rel": "spec-typeschema",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-typeschema\/*\/comment"
+    },
+    {
+      "rel": "spec-openapi",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-openapi\/*\/comment"
+    },
+    {
+      "rel": "spec-raml",
+      "href": "http:\/\/127.0.0.1\/index.php\/system\/export\/spec-raml\/*\/comment"
+    }
+  ]
 }
