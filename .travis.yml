@@ -1,19 +1,20 @@
 language: php
 php:
-  - 7.2
   - 7.3
   - 7.4
+  - 8.0
 sudo: false
 services:
   - mysql
 before_install:
-  - if [ $TRAVIS_PHP_VERSION == '7.2' ]; then phpenv config-rm xdebug.ini; fi;
   - mysql -e 'create database fusio;'
 install:
   - composer install
   - php bin/fusio install --no-interaction
 before_script:
-  - php bin/fusio deploy
   - php bin/fusio migration:migrate --connection=System --no-interaction
+  - php bin/fusio adduser --role=1 --username="test" --email="test@fusio-project.org" --password="test1234"
+  - php bin/fusio login --username="test" --password="test1234"
+  - php bin/fusio deploy
 script:
   - vendor/bin/phpunit
