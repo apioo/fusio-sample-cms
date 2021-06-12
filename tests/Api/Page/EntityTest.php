@@ -64,7 +64,7 @@ JSON;
         $body     = json_encode(['refId' => 2, 'title' => 'foo', 'content' => 'barbar']);
         $response = $this->sendRequest('/page/2', 'PUT', [
             'User-Agent'    => 'Fusio TestCase',
-            'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
+            'Authorization' => 'Bearer ' . $this->accessToken
         ], $body);
 
         $actual = (string) $response->getBody();
@@ -95,7 +95,7 @@ JSON;
     {
         $response = $this->sendRequest('/page/2', 'DELETE', [
             'User-Agent'    => 'Fusio TestCase',
-            'Authorization' => 'Bearer da250526d583edabca8ac2f99e37ee39aa02a3c076c0edc6929095e20ca18dcf'
+            'Authorization' => 'Bearer ' . $this->accessToken
         ]);
 
         $actual = (string) $response->getBody();
