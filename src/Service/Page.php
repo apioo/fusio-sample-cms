@@ -18,15 +18,8 @@ use PSX\Http\Exception as StatusCode;
  */
 class Page
 {
-    /**
-     * @var Repository\Page
-     */
-    private $repository;
-
-    /**
-     * @var DispatcherInterface
-     */
-    private $dispatcher;
+    private Repository\Page $repository;
+    private DispatcherInterface $dispatcher;
 
     public function __construct(Repository\Page $repository, DispatcherInterface $dispatcher)
     {

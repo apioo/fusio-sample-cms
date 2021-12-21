@@ -17,10 +17,7 @@ use PSX\Http\Exception\StatusCodeException;
  */
 class Create extends ActionAbstract
 {
-    /**
-     * @var Post
-     */
-    private $postService;
+    private Post $postService;
 
     public function __construct(Post $postService)
     {

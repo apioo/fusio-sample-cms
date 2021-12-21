@@ -16,15 +16,8 @@ use PSX\Http\Exception as StatusCode;
  */
 class Comment
 {
-    /**
-     * @var Repository\Comment
-     */
-    private $repository;
-
-    /**
-     * @var DispatcherInterface
-     */
-    private $dispatcher;
+    private Repository\Comment $repository;
+    private DispatcherInterface $dispatcher;
 
     public function __construct(Repository\Comment $repository, DispatcherInterface $dispatcher)
     {

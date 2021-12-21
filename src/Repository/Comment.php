@@ -10,10 +10,7 @@ use Doctrine\DBAL\DBALException;
  */
 class Comment
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {

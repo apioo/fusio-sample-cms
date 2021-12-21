@@ -18,10 +18,7 @@ use PSX\Http\Exception\StatusCodeException;
  */
 class Delete extends ActionAbstract
 {
-    /**
-     * @var Comment
-     */
-    private $commentService;
+    private Comment $commentService;
 
     public function __construct(Comment $commentService)
     {

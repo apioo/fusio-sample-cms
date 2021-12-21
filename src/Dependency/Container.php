@@ -13,7 +13,7 @@ use Fusio\Impl\Dependency\Container as FusioContainer;
  */
 class Container extends FusioContainer
 {
-    public function getCommentService(): Service\Comment
+    public function getComment(): Service\Comment
     {
         return new Service\Comment(
             $this->get('comment_repository'),
@@ -21,7 +21,7 @@ class Container extends FusioContainer
         );
     }
 
-    public function getPageService(): Service\Page
+    public function getPage(): Service\Page
     {
         return new Service\Page(
             $this->get('page_repository'),
@@ -29,7 +29,7 @@ class Container extends FusioContainer
         );
     }
 
-    public function getPostService(): Service\Post
+    public function getPost(): Service\Post
     {
         return new Service\Post(
             $this->get('post_repository'),

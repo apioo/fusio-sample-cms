@@ -16,10 +16,7 @@ use PSX\Http\Exception\StatusCodeException;
  */
 class Update extends ActionAbstract
 {
-    /**
-     * @var Page
-     */
-    private $pageService;
+    private Page $pageService;
 
     public function __construct(Page $pageService)
     {

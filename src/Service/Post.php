@@ -16,15 +16,8 @@ use PSX\Http\Exception as StatusCode;
  */
 class Post
 {
-    /**
-     * @var Repository\Post
-     */
-    private $repository;
-
-    /**
-     * @var DispatcherInterface
-     */
-    private $dispatcher;
+    private Repository\Post $repository;
+    private DispatcherInterface $dispatcher;
 
     public function __construct(Repository\Post $repository, DispatcherInterface $dispatcher)
     {

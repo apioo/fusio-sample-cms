@@ -10,12 +10,16 @@ API project. More information about Fusio at the website: https://www.fusio-proj
 
 ## Installation
 
+* Run `composer install` to install all required dependencies
 * Enter the correct database credentials, api host url and apps url ( if you use fusio* apps ) at the `.env` file
 * Run the command `php bin/fusio install`
   * This command install the Fusio tables at the provided database
+* Run the command `php bin/fusio adduser`
+  * This command adds a new administrator account
+* Run the command `php bin/fusio login`
+  * To authenticate with the account which you have created
 * Run the command `php bin/fusio deploy`
-  * This command reads the .yaml files at the `resources/` folder and creates
-    the fitting resources.
+  * This command reads the .yaml files at the `resources/` folder and creates the fitting resources.
 * Run the command `php bin/fusio migration:migrate --connection=System`
   * This command executes the migrations defined at the `src/Migrations/System` folder. In this case we use the System
     connection but you can also execute migrations on different connections 

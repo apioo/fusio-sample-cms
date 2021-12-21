@@ -9,10 +9,7 @@ use Doctrine\DBAL\Connection;
  */
 class Page
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {

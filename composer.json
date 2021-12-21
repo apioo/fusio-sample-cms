@@ -10,14 +10,14 @@
       "homepage": "http://christoph.kappestein.com"
     }
   ],
-  "config": {
-    "platform": {
-      "php": "7.3"
-    }
+  "scripts": {
+    "tests": "@php vendor/phpunit/phpunit/phpunit --configuration phpunit.xml tests",
+    "generate-model": "@php gen/gen_model.php",
+    "generate-sdk": "@php bin/fusio api:generate --format=client-php --filter=backend --config=Fusio\\Sdk\\Generated\\Backend output"
   },
   "require": {
-    "php": ">=7.3",
-    "fusio/impl": "dev-master",
+    "php": ">=7.4",
+    "fusio/impl": "^5.2",
     "symfony/dotenv": "^5.1"
   },
   "require-dev": {

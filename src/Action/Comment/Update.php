@@ -18,10 +18,7 @@ use PSX\Http\Exception\StatusCodeException;
  */
 class Update extends ActionAbstract
 {
-    /**
-     * @var Comment
-     */
-    private $commentService;
+    private Comment $commentService;
 
     public function __construct(Comment $commentService)
     {

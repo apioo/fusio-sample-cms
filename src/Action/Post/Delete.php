@@ -16,10 +16,7 @@ use PSX\Http\Exception\StatusCodeException;
  */
 class Delete extends ActionAbstract
 {
-    /**
-     * @var Post
-     */
-    private $postService;
+    private Post $postService;
 
     public function __construct(Post $postService)
     {
