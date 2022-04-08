@@ -4,10 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
+use PSX\Schema\Attribute\Description;
 /**
  * @extends Collection<Comment>
- * @Description("A collection of comments")
  */
+#[Description('A collection of comments')]
 class Comment_Collection extends Collection
 {
 }
+

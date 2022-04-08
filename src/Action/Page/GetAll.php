@@ -2,7 +2,7 @@
 
 namespace App\Action\Page;
 
-use Fusio\Adapter\Sql\Action\SqlBuilderAbstract;
+use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
@@ -13,9 +13,9 @@ use PSX\Sql\Condition;
  * Action which returns a collection response of all pages. It shows how to build complex nested JSON structures based
  * on SQL queries
  */
-class GetAll extends SqlBuilderAbstract
+class GetAll extends ActionAbstract
 {
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed
     {
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->connector->getConnection('System');
@@ -43,7 +43,7 @@ class GetAll extends SqlBuilderAbstract
                 'title' => 'title',
                 'insertDate' => $builder->fieldDateTime('insert_date'),
                 'links' => [
-                    'self' => $builder->fieldReplace('/page/{id}'),
+                    'self' => $builder->fieldFormat('id', '/page/%s'),
                 ]
             ])
         ];

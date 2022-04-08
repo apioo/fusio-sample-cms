@@ -23,7 +23,7 @@ class Delete extends ActionAbstract
         $this->postService = $postService;
     }
 
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed
     {
         try {
             $id = $this->postService->delete(

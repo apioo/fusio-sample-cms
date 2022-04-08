@@ -26,7 +26,7 @@ class Create extends ActionAbstract
         $this->pageService = $pageService;
     }
 
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed
     {
         try {
             $id = $this->pageService->create(

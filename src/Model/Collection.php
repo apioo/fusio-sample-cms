@@ -4,30 +4,22 @@ declare(strict_types = 1);
 
 namespace App\Model;
 
+use PSX\Schema\Attribute\Description;
 /**
  * @template T
- * @Description("A collection of things")
  */
+#[Description('A collection of things')]
 class Collection implements \JsonSerializable
 {
-    /**
-     * @var int|null
-     */
-    protected $totalResults;
+    protected ?int $totalResults = null;
     /**
      * @var array<T>|null
      */
-    protected $entry;
-    /**
-     * @param int|null $totalResults
-     */
+    protected ?array $entry = null;
     public function setTotalResults(?int $totalResults) : void
     {
         $this->totalResults = $totalResults;
     }
-    /**
-     * @return int|null
-     */
     public function getTotalResults() : ?int
     {
         return $this->totalResults;
@@ -39,17 +31,15 @@ class Collection implements \JsonSerializable
     {
         $this->entry = $entry;
     }
-    /**
-     * @return array<T>|null
-     */
     public function getEntry() : ?array
     {
         return $this->entry;
     }
-    public function jsonSerialize()
+    public function jsonSerialize() : \stdClass
     {
         return (object) array_filter(array('totalResults' => $this->totalResults, 'entry' => $this->entry), static function ($value) : bool {
             return $value !== null;
         });
     }
 }
+

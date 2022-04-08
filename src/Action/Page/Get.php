@@ -2,19 +2,18 @@
 
 namespace App\Action\Page;
 
-use Fusio\Adapter\Sql\Action\SqlBuilderAbstract;
+use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
 use PSX\Sql\Builder;
-use PSX\Sql\Reference;
 
 /**
  * Action which returns all details for a single page
  */
-class Get extends SqlBuilderAbstract
+class Get extends ActionAbstract
 {
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed
     {
         /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->connector->getConnection('System');
@@ -36,7 +35,7 @@ class Get extends SqlBuilderAbstract
             'content' => 'content',
             'insertDate' => $builder->fieldDateTime('insert_date'),
             'links' => [
-                'self' => $builder->fieldReplace('/page/{id}'),
+                'self' => $builder->fieldFormat('id', '/page/%s'),
             ]
         ]);
 

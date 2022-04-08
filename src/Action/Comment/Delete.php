@@ -4,7 +4,6 @@ namespace App\Action\Comment;
 
 use App\Model\Message;
 use App\Service\Comment;
-use App\Service\Post;
 use Fusio\Engine\ActionAbstract;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
@@ -25,7 +24,7 @@ class Delete extends ActionAbstract
         $this->commentService = $commentService;
     }
 
-    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context)
+    public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed
     {
         try {
             $id = $this->commentService->delete(
