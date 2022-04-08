@@ -37,7 +37,7 @@ context. For all write operations the app contains a simple design:
     * Repository - contains all database interactions
 
 For all read operations the action i.e. `Get` and `GetAll` contains the query logic since we use the 
-`SqlBuilderAbstract` action to generate a nested response. If you want to be completely framework independent you can
+`Builder` class to generate a nested response. If you want to be completely framework independent you can
 also move this logic into a separate service/repository.
 
 ## Structure
@@ -53,7 +53,7 @@ also move this logic into a separate service/repository.
   * `Action` - contains all action classes which are used at the defined routes
   * `Dependency` - contains a custom DI container to register services for the app
   * `Migrations` - contains all migration files to setup the database structure
-  * `Model` - contains the generated model classes which
+  * `Model` - contains the generated model classes
   * `Repository` - contains repositories to query the database
   * `Service` - contains the service classes which handle the business logic of your API
 * `tests` - contains all PHP test files
