@@ -1,9 +1,3 @@
-# If true the status of a new app is PENDING so that an administrator has to 
-# manually activate the app
-app_approval: 0
-# The max amount of apps a consumer can register
-app_consumer: 16
-
 # Additional API information which are used in various API specifications
 # The title of the application
 info_title: "Fusio"
@@ -45,22 +39,3 @@ you have successful registered at Fusio.
 To activate you account please visit the following url:
 ${env.FUSIO_URL}\/developer\/register\/activate\/{token}
 "
-
-# Email address which is used in the "From" header
-mail_sender: ""
-
-# Facebook app secret
-provider_facebook_secret: "${env.PROVIDER_FACEBOOK_SECRET}"
-# Google app secret
-provider_google_secret: "${env.PROVIDER_GOOGLE_SECRET}"
-# GitHub app secret
-provider_github_secret: "${env.PROVIDER_GITHUB_SECRET}"
-
-# ReCaptcha secret
-recaptcha_secret: "${env.RECAPTCHA_SECRET}"
-
-# If a user registers through the consumer API the following scopes are assigned
-role_default: "Consumer"
-
-# The default amount of points which a user receives if he registers
-points_default: 0
