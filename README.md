@@ -11,9 +11,9 @@ API project. More information about Fusio at the website: https://www.fusio-proj
 ## Installation
 
 * Run `composer install` to install all required dependencies
-* Enter the correct database credentials, api host url and apps url ( if you use fusio* apps ) at the `.env` file
+* Enter the correct database credentials, api host url and apps url at the `.env` file
 * Run the command `php bin/fusio migrate`
-  * This command install the Fusio and app tables at the provided database
+  * This command installs the Fusio and app tables at the provided database
 * Run the command `php bin/fusio adduser`
   * This command adds a new administrator account
 * Run the command `php bin/fusio login`
@@ -26,33 +26,20 @@ want to use the backend app you need to install it from the marketplace via: `ph
 
 ## Architecture
 
-We try to design the app framework independent so that it is possible to reuse your business logic also in another
-context. For all write operations the app contains a simple design:
-
-* Actions - invokes the service
-  * Service - contains the business logic
-    * Repository - contains all database interactions
-
-For all read operations the action i.e. `Get` and `GetAll` contains the query logic since we use the 
-`Builder` class to generate a nested response. If you want to be completely framework independent you can
-also move this logic into a separate service/repository.
-
-## Structure
-
 * `resources` - contains all API configuration files
   * `operations` - folder which contains operation configurations
   * `config.yaml` - contains the Fusio system config
-  * `container.php` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
+  * `container.php` - contains the [Symfony DI](https://symfony.com/doc/current/components/dependency_injection.html) container configuration
   * `events.yaml` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
-  * `operations.yaml` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
-  * `typeschema.json` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
+  * `operations.yaml` - contains all available operations with a reference to a operation file inside the `operations/` folder
+  * `typeschema.json` - contains the [TypeSchema](https://typeschema.org/) specification to generate the model classes under `src/Model`
 * `src` - contains all PHP source files
-  * `Action` - contains all action classes which are used at the defined routes
-  * `Migrations` - contains all migration files to setup the database structure
-  * `Model` - contains the generated model classes
+  * `Action` - contains all action classes which are used at the defined operations
+  * `Migrations` - contains all migration files to setup the database structure (`php bin/fusio migration:generate`)
+  * `Model` - contains the generated model classes (`php bin/fusio generate:model`)
   * `Service` - contains the service classes which handle the business logic of your API
-  * `Table` - contains the service classes which handle the business logic of your API
-  * `View` - contains the service classes which handle the business logic of your API
+  * `Table` - contains all table classes (`php bin/fusio generate:table`)
+  * `View` - contains custom views to return the collection and entity response
 * `tests` - contains all PHP test files
   * `Api` - contains all API integration tests. These tests trigger the API endpoint like if you call them via a HTTP client but without the need to setup an actual HTTP server
 
