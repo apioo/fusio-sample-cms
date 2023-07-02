@@ -26,8 +26,10 @@ jobs:
     strategy:
       matrix:
         php-versions:
-         - 8.1
-         - 8.2
+          - 8.1
+          - 8.2
+        connection:
+          - 'pdo-mysql://root:test1234@localhost/fusio'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,6 +45,10 @@ jobs:
           mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test1234';" -uroot -proot
       - name: Composer install
         run: composer install --no-interaction --no-ansi --no-progress
+      - name: Wait for
+        env:
+          APP_CONNECTION: ${{ matrix.connection }}
+        run: php bin/fusio system:wait_for
       - name: Setup Fusio
         run: |
           php bin/fusio migrate --no-interaction
@@ -50,4 +56,6 @@ jobs:
           php bin/fusio login --username=test --password=test1234
           php bin/fusio deploy
       - name: Run PHPUnit
+        env:
+          APP_CONNECTION: ${{ matrix.connection }}
         run: vendor/bin/phpunit
