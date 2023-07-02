@@ -9,7 +9,7 @@ use PSX\Schema\Attribute\Description;
  * @template T
  */
 #[Description('A collection of things')]
-class Collection implements \JsonSerializable
+class Collection implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     protected ?int $totalResults = null;
     /**
@@ -35,11 +35,17 @@ class Collection implements \JsonSerializable
     {
         return $this->entry;
     }
-    public function jsonSerialize() : \stdClass
+    public function toRecord() : \PSX\Record\RecordInterface
     {
-        return (object) array_filter(array('totalResults' => $this->totalResults, 'entry' => $this->entry), static function ($value) : bool {
-            return $value !== null;
-        });
+        /** @var \PSX\Record\Record<mixed> $record */
+        $record = new \PSX\Record\Record();
+        $record->put('totalResults', $this->totalResults);
+        $record->put('entry', $this->entry);
+        return $record;
+    }
+    public function jsonSerialize() : object
+    {
+        return (object) $this->toRecord()->getAll();
     }
 }
 

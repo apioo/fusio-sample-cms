@@ -1,0 +1,12 @@
+scopes: ["comment"]
+stability: 1
+public: false
+description: "Creates a new comment"
+httpMethod: POST
+httpPath: "/comment"
+httpCode: 201
+incoming: "App\\Model\\Comment"
+outgoing: "App\\Model\\CommentCollection"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Comment\\Create"

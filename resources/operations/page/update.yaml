@@ -1,0 +1,12 @@
+scopes: ["page"]
+stability: 1
+public: false
+description: "Updates a single page"
+httpMethod: PUT
+httpPath: "/page/:id"
+httpCode: 200
+incoming: "App\\Model\\Page"
+outgoing: "App\\Model\\Message"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Page\\Update"

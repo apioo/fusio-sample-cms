@@ -1,0 +1,11 @@
+scopes: ["post"]
+stability: 1
+public: false
+description: "Returns a single post"
+httpMethod: GET
+httpPath: "/post/:id"
+httpCode: 200
+outgoing: "App\\Model\\Post"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Post\\Get"

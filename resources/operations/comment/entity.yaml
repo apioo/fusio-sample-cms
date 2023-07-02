@@ -1,0 +1,11 @@
+scopes: ["comment"]
+stability: 1
+public: false
+description: "Returns a single comment"
+httpMethod: GET
+httpPath: "/comment/:id"
+httpCode: 200
+outgoing: "App\\Model\\Comment"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Comment\\Get"

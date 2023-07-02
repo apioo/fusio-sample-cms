@@ -7,13 +7,13 @@ namespace App\Model;
 use PSX\Schema\Attribute\Description;
 
 #[Description('A specific post')]
-class Post implements \JsonSerializable
+class Post implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     protected ?int $refId = null;
     protected ?string $title = null;
     protected ?string $summary = null;
     protected ?string $content = null;
-    protected ?\DateTime $insertDate = null;
+    protected ?\PSX\DateTime\LocalDateTime $insertDate = null;
     public function setRefId(?int $refId) : void
     {
         $this->refId = $refId;
@@ -46,19 +46,28 @@ class Post implements \JsonSerializable
     {
         return $this->content;
     }
-    public function setInsertDate(?\DateTime $insertDate) : void
+    public function setInsertDate(?\PSX\DateTime\LocalDateTime $insertDate) : void
     {
         $this->insertDate = $insertDate;
     }
-    public function getInsertDate() : ?\DateTime
+    public function getInsertDate() : ?\PSX\DateTime\LocalDateTime
     {
         return $this->insertDate;
     }
-    public function jsonSerialize() : \stdClass
+    public function toRecord() : \PSX\Record\RecordInterface
     {
-        return (object) array_filter(array('refId' => $this->refId, 'title' => $this->title, 'summary' => $this->summary, 'content' => $this->content, 'insertDate' => $this->insertDate), static function ($value) : bool {
-            return $value !== null;
-        });
+        /** @var \PSX\Record\Record<mixed> $record */
+        $record = new \PSX\Record\Record();
+        $record->put('refId', $this->refId);
+        $record->put('title', $this->title);
+        $record->put('summary', $this->summary);
+        $record->put('content', $this->content);
+        $record->put('insertDate', $this->insertDate);
+        return $record;
+    }
+    public function jsonSerialize() : object
+    {
+        return (object) $this->toRecord()->getAll();
     }
 }
 

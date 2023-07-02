@@ -1,0 +1,11 @@
+scopes: ["page"]
+stability: 1
+public: false
+description: "Returns a single page"
+httpMethod: GET
+httpPath: "/page/:id"
+httpCode: 200
+outgoing: "App\\Model\\Page"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Page\\Get"

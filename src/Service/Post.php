@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Model;
-use App\Repository;
+use App\Table;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
@@ -16,12 +16,12 @@ use PSX\Http\Exception as StatusCode;
  */
 class Post
 {
-    private Repository\Post $repository;
+    private Table\Post $postTable;
     private DispatcherInterface $dispatcher;
 
-    public function __construct(Repository\Post $repository, DispatcherInterface $dispatcher)
+    public function __construct(Table\Post $postTable, DispatcherInterface $dispatcher)
     {
-        $this->repository = $repository;
+        $this->postTable = $postTable;
         $this->dispatcher = $dispatcher;
     }
 
@@ -29,58 +29,55 @@ class Post
     {
         $this->assertPost($post);
 
-        $id = $this->repository->insert(
-            $post->getRefId(),
-            $context->getUser()->getId(),
-            $post->getTitle(),
-            $post->getSummary(),
-            $post->getContent()
-        );
+        $row = new Table\Generated\PostRow();
+        $row->setRefId($post->getRefId());
+        $row->setUserId($context->getUser()->getId());
+        $row->setTitle($post->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
+        $row->setSummary($post->getSummary() ?? throw new StatusCode\BadRequestException('Provided no summary'));
+        $row->setContent($post->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $this->postTable->create($row);
 
-        $row = $this->repository->findById($id);
-        $this->dispatchEvent('post_created', $row, $id);
+        $id = $this->postTable->getLastInsertId();
+        $this->dispatchEvent('post.created', $row, $id);
 
         return $id;
     }
 
     public function update(int $id, Model\Post $post): int
     {
-        $row = $this->repository->findById($id);
-        if (empty($row)) {
+        $row = $this->postTable->find($id);
+        if (!$row instanceof Table\Generated\PostRow) {
             throw new StatusCode\NotFoundException('Provided post does not exist');
         }
 
         $this->assertPost($post);
 
-        $id = $this->repository->update(
-            $id,
-            $post->getRefId(),
-            $post->getTitle(),
-            $post->getSummary(),
-            $post->getContent()
-        );
+        $row->setRefId($post->getRefId());
+        $row->setTitle($post->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
+        $row->setSummary($post->getSummary() ?? throw new StatusCode\BadRequestException('Provided no summary'));
+        $row->setContent($post->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $this->postTable->update($row);
 
-        $row = $this->repository->findById($id);
-        $this->dispatchEvent('post_updated', $row, $id);
+        $this->dispatchEvent('post.updated', $row, $row->getId());
 
         return $id;
     }
 
     public function delete(int $id): int
     {
-        $row = $this->repository->findById($id);
-        if (empty($row)) {
+        $row = $this->postTable->find($id);
+        if (!$row instanceof Table\Generated\PostRow) {
             throw new StatusCode\NotFoundException('Provided post does not exist');
         }
 
-        $this->repository->delete($id);
+        $this->postTable->delete($row);
 
-        $this->dispatchEvent('post_deleted', $row, $id);
+        $this->dispatchEvent('post.deleted', $row, $row->getId());
 
         return $id;
     }
 
-    private function dispatchEvent(string $type, array $data, int $id)
+    private function dispatchEvent(string $type, Table\Generated\PostRow $data, int $id): void
     {
         $event = (new Builder())
             ->withId(Uuid::pseudoRandom())
@@ -93,7 +90,7 @@ class Post
         $this->dispatcher->dispatch($type, $event);
     }
 
-    private function assertPost(Model\Post $post)
+    private function assertPost(Model\Post $post): void
     {
         $refId = $post->getRefId();
         if ($refId === null) {

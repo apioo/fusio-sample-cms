@@ -1,0 +1,11 @@
+scopes: ["comment"]
+stability: 1
+public: false
+description: "Removes a specific comment"
+httpMethod: DELETE
+httpPath: "/comment/:id"
+httpCode: 200
+outgoing: "App\\Model\\Message"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Comment\\Delete"

@@ -1,0 +1,12 @@
+scopes: ["post"]
+stability: 1
+public: false
+description: "Creates a new post"
+httpMethod: POST
+httpPath: "/post"
+httpCode: 201
+incoming: "App\\Model\\Post"
+outgoing: "App\\Model\\PostCollection"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Post\\Create"

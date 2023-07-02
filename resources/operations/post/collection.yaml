@@ -1,0 +1,20 @@
+scopes: ["post"]
+stability: 1
+public: true
+description: "Returns all available posts"
+httpMethod: GET
+httpPath: "/post"
+httpCode: 200
+parameters:
+  refId:
+    type: integer
+  startIndex:
+    type: integer
+  count:
+    type: integer
+  search:
+    type: string
+outgoing: "App\\Model\\PostCollection"
+throws:
+  500: "App\\Model\\Message"
+action: "App\\Action\\Post\\GetAll"

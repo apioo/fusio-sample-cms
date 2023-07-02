@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Model;
-use App\Repository;
+use App\Table;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
@@ -18,12 +18,12 @@ use PSX\Http\Exception as StatusCode;
  */
 class Page
 {
-    private Repository\Page $repository;
+    private Table\Page $pageTable;
     private DispatcherInterface $dispatcher;
 
-    public function __construct(Repository\Page $repository, DispatcherInterface $dispatcher)
+    public function __construct(Table\Page $pageTable, DispatcherInterface $dispatcher)
     {
-        $this->repository = $repository;
+        $this->pageTable = $pageTable;
         $this->dispatcher = $dispatcher;
     }
 
@@ -31,51 +31,53 @@ class Page
     {
         $this->assertPage($page);
 
-        $id = $this->repository->insert(
-            $page->getRefId(),
-            $context->getUser()->getId(),
-            $page->getTitle(),
-            $page->getContent()
-        );
+        $row = new Table\Generated\PageRow();
+        $row->setRefId($page->getRefId());
+        $row->setUserId($context->getUser()->getId());
+        $row->setTitle($page->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
+        $row->setContent($page->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $this->pageTable->create($row);
 
-        $row = $this->repository->findById($id);
-        $this->dispatchEvent('page_created', $row, $id);
+        $id = $this->pageTable->getLastInsertId();
+        $this->dispatchEvent('page.created', $row, $id);
 
         return $id;
     }
 
     public function update(int $id, Model\Page $page): int
     {
-        $row = $this->repository->findById($id);
-        if (empty($row)) {
+        $row = $this->pageTable->find($id);
+        if (!$row instanceof Table\Generated\PageRow) {
             throw new StatusCode\NotFoundException('Provided page does not exist');
         }
 
         $this->assertPage($page);
 
-        $this->repository->update($id, $page->getRefId(), $page->getTitle(), $page->getContent());
+        $row->setRefId($page->getRefId());
+        $row->setTitle($page->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
+        $row->setContent($page->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $this->pageTable->update($row);
 
-        $row = $this->repository->findById($id);
-        $this->dispatchEvent('page_updated', $row, $id);
+        $this->dispatchEvent('page.updated', $row, $row->getId());
 
         return $id;
     }
 
     public function delete(int $id): int
     {
-        $row = $this->repository->findById($id);
-        if (empty($row)) {
+        $row = $this->pageTable->find($id);
+        if (!$row instanceof Table\Generated\PageRow) {
             throw new StatusCode\NotFoundException('Provided page does not exist');
         }
 
-        $this->repository->delete($id);
+        $this->pageTable->delete($row);
 
-        $this->dispatchEvent('page_deleted', $row, $id);
+        $this->dispatchEvent('page.deleted', $row, $row->getId());
 
         return $id;
     }
 
-    private function dispatchEvent(string $type, array $data, int $id)
+    private function dispatchEvent(string $type, Table\Generated\PageRow $data, int $id): void
     {
         $event = (new Builder())
             ->withId(Uuid::pseudoRandom())
@@ -88,7 +90,7 @@ class Page
         $this->dispatcher->dispatch($type, $event);
     }
 
-    private function assertPage(Model\Page $page)
+    private function assertPage(Model\Page $page): void
     {
         $refId = $page->getRefId();
         if ($refId === null) {

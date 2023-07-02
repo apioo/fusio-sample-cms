@@ -7,7 +7,7 @@ namespace App\Model;
 use PSX\Schema\Attribute\Description;
 
 #[Description('Contains a message whether the operation was successful or not')]
-class Message implements \JsonSerializable
+class Message implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
     protected ?bool $success = null;
     protected ?string $message = null;
@@ -36,11 +36,18 @@ class Message implements \JsonSerializable
     {
         return $this->id;
     }
-    public function jsonSerialize() : \stdClass
+    public function toRecord() : \PSX\Record\RecordInterface
     {
-        return (object) array_filter(array('success' => $this->success, 'message' => $this->message, 'id' => $this->id), static function ($value) : bool {
-            return $value !== null;
-        });
+        /** @var \PSX\Record\Record<mixed> $record */
+        $record = new \PSX\Record\Record();
+        $record->put('success', $this->success);
+        $record->put('message', $this->message);
+        $record->put('id', $this->id);
+        return $record;
+    }
+    public function jsonSerialize() : object
+    {
+        return (object) $this->toRecord()->getAll();
     }
 }
 

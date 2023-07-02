@@ -2,30 +2,21 @@
 
 namespace App\Tests;
 
-use Fusio\Impl\Connection\Native;
-use Fusio\Impl\Migrations\DataBag;
-use Fusio\Impl\Migrations\NewInstallation;
+use Fusio\Impl\Installation\DataBag;
+use Fusio\Impl\Installation\NewInstallation;
 
-/**
- * Fixture
- *
- * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
- * @license http://www.gnu.org/licenses/agpl-3.0
- * @link    http://fusio-project.org
- */
 class Fixture
 {
     public const TEST_USERNAME = 'test';
     public const TEST_PASSWORD = 'test1234';
 
-    protected static $dataSet;
+    protected static ?DataBag $dataSet = null;
 
     /**
      * Appends the default Fusio system inserts, through this it is i.e.
      * possible to add test users or apps which are required for your API. The
      * test token needs the required scopes to access your endpoints
      * 
-     * @return array
      * @throws \Exception
      */
     public static function append(DataBag $dataBag): void
@@ -38,15 +29,15 @@ class Fixture
         $dataBag->addUserScope('test', 'backend');
         $dataBag->addUserScope('test', 'consumer');
         $dataBag->addUserScope('test', 'testing');
-        $dataBag->addEvent('default', 'comment_created', '');
-        $dataBag->addEvent('default', 'comment_updated', '');
-        $dataBag->addEvent('default', 'comment_deleted', '');
-        $dataBag->addEvent('default', 'page_created', '');
-        $dataBag->addEvent('default', 'page_updated', '');
-        $dataBag->addEvent('default', 'page_deleted', '');
-        $dataBag->addEvent('default', 'post_created', '');
-        $dataBag->addEvent('default', 'post_updated', '');
-        $dataBag->addEvent('default', 'post_deleted', '');
+        $dataBag->addEvent('default', 'comment.created', '');
+        $dataBag->addEvent('default', 'comment.updated', '');
+        $dataBag->addEvent('default', 'comment.deleted', '');
+        $dataBag->addEvent('default', 'page.created', '');
+        $dataBag->addEvent('default', 'page.updated', '');
+        $dataBag->addEvent('default', 'page.deleted', '');
+        $dataBag->addEvent('default', 'post.created', '');
+        $dataBag->addEvent('default', 'post.updated', '');
+        $dataBag->addEvent('default', 'post.deleted', '');
 
         $dataBag->addTable('app_page', [
             ['ref_id' => 0, 'user_id' => 1, 'title' => 'Home', 'content' => 'Home page', 'insert_date' => '2020-04-09 19:49:00'],
@@ -64,16 +55,13 @@ class Fixture
         ]);
     }
 
-    public static function getFixture()
+    public static function getFixture(): DataBag
     {
         if (self::$dataSet !== null) {
             return self::$dataSet;
         }
 
         $dataBag = NewInstallation::getData();
-
-        // replace System connection class
-        $dataBag->replace('fusio_connection', 'System', 'class', Native::class);
 
         self::append($dataBag);
 

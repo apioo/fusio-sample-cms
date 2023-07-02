@@ -1,0 +1,15 @@
+"page.getAll": !include resources/operations/page/collection.yaml
+"page.get": !include resources/operations/page/entity.yaml
+"page.create": !include resources/operations/page/create.yaml
+"page.update": !include resources/operations/page/update.yaml
+"page.delete": !include resources/operations/page/delete.yaml
+"post.getAll": !include resources/operations/post/collection.yaml
+"post.get": !include resources/operations/post/entity.yaml
+"post.create": !include resources/operations/post/create.yaml
+"post.update": !include resources/operations/post/update.yaml
+"post.delete": !include resources/operations/post/delete.yaml
+"comment.getAll": !include resources/operations/comment/collection.yaml
+"comment.get": !include resources/operations/comment/entity.yaml
+"comment.create": !include resources/operations/comment/create.yaml
+"comment.update": !include resources/operations/comment/update.yaml
+"comment.delete": !include resources/operations/comment/delete.yaml

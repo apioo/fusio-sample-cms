@@ -1,54 +1,15 @@
 <?php
-/*
- * Fusio
- * A web-application to create dynamically RESTful APIs
- *
- * Copyright (C) 2015-2020 Christoph Kappestein <christoph.kappestein@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 namespace App\Tests\Api\Comment;
 
 use App\Tests\ApiTestCase;
 use PSX\Framework\Test\Environment;
 
-/**
- * CollectionTest
- *
- * @author  Christoph Kappestein <christoph.kappestein@gmail.com>
- * @license http://www.gnu.org/licenses/agpl-3.0
- * @link    http://fusio-project.org
- */
 class CollectionTest extends ApiTestCase
 {
-    public function testDocumentation()
-    {
-        $response = $this->sendRequest('/system/doc/*/comment', 'GET', [
-            'User-Agent'    => 'Fusio TestCase',
-        ]);
-
-        $actual = (string) $response->getBody();
-        $expect = file_get_contents(__DIR__ . '/resource/collection.json');
-
-        $this->assertEquals(200, $response->getStatusCode(), $actual);
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
-    }
-
     public function testGet()
     {
-        $response = $this->sendRequest('/comment', 'GET', [
+        $response = $this->sendRequest('/comment?refId=2', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -61,7 +22,7 @@ class CollectionTest extends ApiTestCase
 
     public function testPost()
     {
-        $body     = json_encode(['refId' => 2, 'content' => 'bar']);
+        $body = json_encode(['refId' => 2, 'content' => 'bar']);
         $response = $this->sendRequest('/comment', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer ' . $this->accessToken
@@ -79,9 +40,7 @@ JSON;
         $this->assertEquals(201, $response->getStatusCode(), $actual);
         $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
 
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT content FROM app_comment WHERE id = :id', ['id' => 2]);
+        $actual = $this->connection->fetchAssociative('SELECT content FROM app_comment WHERE id = :id', ['id' => 2]);
         $expect = [
             'content' => 'bar',
         ];

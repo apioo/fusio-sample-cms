@@ -1,10 +1,14 @@
 {
   "totalResults": 1,
   "startIndex": 0,
-  "entries": [
+  "itemsPerPage": 16,
+  "entry": [
     {
       "id": 1,
-      "refId": 2,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
       "content": "Lorem ipsum",
       "insertDate": "2020-04-09T19:49:00Z",
       "links": {

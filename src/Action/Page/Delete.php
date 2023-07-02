@@ -4,23 +4,26 @@ namespace App\Action\Page;
 
 use App\Model\Message;
 use App\Service\Page;
-use Fusio\Engine\ActionAbstract;
+use Fusio\Engine\ActionInterface;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\RequestInterface;
+use Fusio\Engine\Response\FactoryInterface;
 use PSX\Http\Exception\InternalServerErrorException;
 use PSX\Http\Exception\StatusCodeException;
 
 /**
- * Action which deletes a page. Similar to the create action it only invokes the page service to delete a specific page
+ * Action which deletes a page. Similar to the "create" action it only invokes the page service to delete a specific page
  */
-class Delete extends ActionAbstract
+class Delete implements ActionInterface
 {
     private Page $pageService;
+    private FactoryInterface $response;
 
-    public function __construct(Page $pageService)
+    public function __construct(Page $pageService, FactoryInterface $response)
     {
         $this->pageService = $pageService;
+        $this->response = $response;
     }
 
     public function handle(RequestInterface $request, ParametersInterface $configuration, ContextInterface $context): mixed

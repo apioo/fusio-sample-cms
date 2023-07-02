@@ -12,17 +12,14 @@ API project. More information about Fusio at the website: https://www.fusio-proj
 
 * Run `composer install` to install all required dependencies
 * Enter the correct database credentials, api host url and apps url ( if you use fusio* apps ) at the `.env` file
-* Run the command `php bin/fusio install`
-  * This command install the Fusio tables at the provided database
+* Run the command `php bin/fusio migrate`
+  * This command install the Fusio and app tables at the provided database
 * Run the command `php bin/fusio adduser`
   * This command adds a new administrator account
 * Run the command `php bin/fusio login`
   * To authenticate with the account which you have created
 * Run the command `php bin/fusio deploy`
   * This command reads the .yaml files at the `resources/` folder and creates the fitting resources.
-* Run the command `php bin/fusio migration:migrate --connection=System`
-  * This command executes the migrations defined at the `src/Migrations/System` folder. In this case we use the System
-    connection but you can also execute migrations on different connections 
 
 Note this repository does not contain the Fusio backend app, since we develop the complete API via source files. If you
 want to use the backend app you need to install it from the marketplace via: `php bin/fusio marketplace:install fusio`
@@ -42,20 +39,20 @@ also move this logic into a separate service/repository.
 
 ## Structure
 
-* `gen` - contains the TypeSchema specification to generate the model classes
 * `resources` - contains all API configuration files
-  * `routes` - folder which contains route configurations
+  * `operations` - folder which contains operation configurations
   * `config.yaml` - contains the Fusio system config
-  * `connections.yaml` - contains a list of all available connections to remote systems i.e. a database or message-queue
-  * `event.yaml` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
-  * `routes.yaml` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
+  * `container.php` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
+  * `events.yaml` - contains a list of events which are triggered by the app. User can then register HTTP callbacks to receives those events
+  * `operations.yaml` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
+  * `typeschema.json` - contains an index of all available routes with a reference to a route file inside the `routes/` folder
 * `src` - contains all PHP source files
   * `Action` - contains all action classes which are used at the defined routes
-  * `Dependency` - contains a custom DI container to register services for the app
   * `Migrations` - contains all migration files to setup the database structure
   * `Model` - contains the generated model classes
-  * `Repository` - contains repositories to query the database
   * `Service` - contains the service classes which handle the business logic of your API
+  * `Table` - contains the service classes which handle the business logic of your API
+  * `View` - contains the service classes which handle the business logic of your API
 * `tests` - contains all PHP test files
   * `Api` - contains all API integration tests. These tests trigger the API endpoint like if you call them via a HTTP client but without the need to setup an actual HTTP server
 
