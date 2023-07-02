@@ -30,7 +30,7 @@ class Delete implements ActionInterface
     {
         try {
             $id = $this->pageService->delete(
-                (int) $request->get('page_id')
+                (int) $request->get('id')
             );
 
             $message = new Message();

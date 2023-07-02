@@ -7,6 +7,7 @@ use App\Table;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
+use PSX\DateTime\LocalDateTime;
 use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
@@ -36,6 +37,7 @@ class Page
         $row->setUserId($context->getUser()->getId());
         $row->setTitle($page->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
         $row->setContent($page->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $row->setInsertDate(LocalDateTime::now());
         $this->pageTable->create($row);
 
         $id = $this->pageTable->getLastInsertId();

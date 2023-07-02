@@ -31,7 +31,7 @@ class Update implements ActionInterface
     {
         try {
             $id = $this->postService->update(
-                (int) $request->get('post_id'),
+                (int) $request->get('id'),
                 $request->getPayload()
             );
 

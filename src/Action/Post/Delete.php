@@ -31,7 +31,7 @@ class Delete implements ActionInterface
     {
         try {
             $id = $this->postService->delete(
-                (int) $request->get('post_id')
+                (int) $request->get('id')
             );
 
             $message = new Message();

@@ -1,15 +1,42 @@
 {
-  "totalResults": 1,
+  "totalResults": 3,
   "startIndex": 0,
-  "entries": [
+  "itemsPerPage": 16,
+  "entry": [
     {
-      "id": 1,
-      "refId": 2,
-      "title": "My Post",
-      "summary": "Lorem ipsum",
+      "id": 3,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
+      "title": "About",
       "insertDate": "2020-04-09T19:49:00Z",
       "links": {
-        "self": "\/post\/1"
+        "self": "\/page\/3"
+      }
+    },
+    {
+      "id": 2,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
+      "title": "Blog",
+      "insertDate": "2020-04-09T19:49:00Z",
+      "links": {
+        "self": "\/page\/2"
+      }
+    },
+    {
+      "id": 1,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
+      "title": "Home",
+      "insertDate": "2020-04-09T19:49:00Z",
+      "links": {
+        "self": "\/page\/1"
       }
     }
   ]

@@ -30,7 +30,7 @@ class Update implements ActionInterface
     {
         try {
             $id = $this->pageService->update(
-                (int) $request->get('page_id'),
+                (int) $request->get('id'),
                 $request->getPayload()
             );
 

@@ -1,6 +1,9 @@
 {
   "id": 1,
-  "refId": 2,
+  "user": {
+    "id": 1,
+    "name": "Administrator"
+  },
   "title": "My Post",
   "summary": "Lorem ipsum",
   "content": "Lorem ipsum",

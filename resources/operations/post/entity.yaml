@@ -1,6 +1,6 @@
 scopes: ["post"]
 stability: 1
-public: false
+public: true
 description: "Returns a single post"
 httpMethod: GET
 httpPath: "/post/:id"

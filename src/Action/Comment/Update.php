@@ -32,7 +32,7 @@ class Update implements ActionInterface
     {
         try {
             $id = $this->commentService->update(
-                (int) $request->get('comment_id'),
+                (int) $request->get('id'),
                 $request->getPayload()
             );
 

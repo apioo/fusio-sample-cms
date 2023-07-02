@@ -1,19 +1,14 @@
 {
-  "totalResults": 4,
+  "totalResults": 3,
   "startIndex": 0,
-  "entries": [
-    {
-      "id": 4,
-      "refId": 2,
-      "title": "Imprint",
-      "insertDate": "2020-04-09T19:49:00Z",
-      "links": {
-        "self": "\/page\/4"
-      }
-    },
+  "itemsPerPage": 16,
+  "entry": [
     {
       "id": 3,
-      "refId": 0,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
       "title": "About",
       "insertDate": "2020-04-09T19:49:00Z",
       "links": {
@@ -22,7 +17,10 @@
     },
     {
       "id": 2,
-      "refId": 0,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
       "title": "Blog",
       "insertDate": "2020-04-09T19:49:00Z",
       "links": {
@@ -31,7 +29,10 @@
     },
     {
       "id": 1,
-      "refId": 0,
+      "user": {
+        "id": 1,
+        "name": "Administrator"
+      },
       "title": "Home",
       "insertDate": "2020-04-09T19:49:00Z",
       "links": {

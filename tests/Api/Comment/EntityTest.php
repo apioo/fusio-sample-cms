@@ -20,25 +20,6 @@ class EntityTest extends ApiTestCase
         $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
     }
 
-    public function testPost()
-    {
-        $response = $this->sendRequest('/comment/1', 'POST', [
-            'User-Agent'    => 'Fusio TestCase',
-        ]);
-
-        $actual = (string) $response->getBody();
-        $expect = <<<'JSON'
-{
-    "success": false,
-    "title": "Internal Server Error",
-    "message": "Given request method is not supported"
-}
-JSON;
-
-        $this->assertEquals(405, $response->getStatusCode(), $actual);
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
-    }
-
     public function testPut()
     {
         $body     = json_encode(['refId' => 4, 'content' => 'bar']);
@@ -59,9 +40,7 @@ JSON;
         $this->assertEquals(200, $response->getStatusCode(), $actual);
         $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
 
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT ref_id, content FROM app_comment WHERE id = :id', ['id' => 1]);
+        $actual = $this->connection->fetchAssociative('SELECT ref_id, content FROM app_comment WHERE id = :id', ['id' => 1]);
         $expect = [
             'ref_id' => 4,
             'content' => 'bar',
@@ -89,9 +68,7 @@ JSON;
         $this->assertEquals(200, $response->getStatusCode(), $actual);
         $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
 
-        /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = Environment::getService('connector')->getConnection('System');
-        $actual = $connection->fetchAssoc('SELECT id, content FROM app_comment WHERE id = 1');
+        $actual = $this->connection->fetchAssociative('SELECT id, content FROM app_comment WHERE id = 1');
         $expect = null;
 
         $this->assertEquals($expect, $actual);

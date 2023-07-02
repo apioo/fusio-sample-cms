@@ -25,9 +25,15 @@ class Fixture
         $expire->add(new \DateInterval('P1M'));
 
         $dataBag->addUser('Administrator', self::TEST_USERNAME, 'test@test.com', password_hash(self::TEST_PASSWORD, PASSWORD_DEFAULT));
+        $dataBag->addScope('default', 'comment', 'Comment scope');
+        $dataBag->addScope('default', 'page', 'Page scope');
+        $dataBag->addScope('default', 'post', 'Post scope');
         $dataBag->addScope('default', 'testing', 'Test scope');
         $dataBag->addUserScope('test', 'backend');
         $dataBag->addUserScope('test', 'consumer');
+        $dataBag->addUserScope('test', 'comment');
+        $dataBag->addUserScope('test', 'page');
+        $dataBag->addUserScope('test', 'post');
         $dataBag->addUserScope('test', 'testing');
         $dataBag->addEvent('default', 'comment.created', '');
         $dataBag->addEvent('default', 'comment.updated', '');

@@ -32,7 +32,7 @@ class Delete implements ActionInterface
     {
         try {
             $id = $this->commentService->delete(
-                (int) $request->get('comment_id')
+                (int) $request->get('id')
             );
 
             $message = new Message();

@@ -1,6 +1,6 @@
 scopes: ["page"]
 stability: 1
-public: false
+public: true
 description: "Returns a single page"
 httpMethod: GET
 httpPath: "/page/:id"

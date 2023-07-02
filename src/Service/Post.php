@@ -7,6 +7,7 @@ use App\Table;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
+use PSX\DateTime\LocalDateTime;
 use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
@@ -35,6 +36,7 @@ class Post
         $row->setTitle($post->getTitle() ?? throw new StatusCode\BadRequestException('Provided no title'));
         $row->setSummary($post->getSummary() ?? throw new StatusCode\BadRequestException('Provided no summary'));
         $row->setContent($post->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $row->setInsertDate(LocalDateTime::now());
         $this->postTable->create($row);
 
         $id = $this->postTable->getLastInsertId();

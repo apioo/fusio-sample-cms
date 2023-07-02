@@ -7,6 +7,7 @@ use App\Table;
 use Fusio\Engine\ContextInterface;
 use Fusio\Engine\DispatcherInterface;
 use PSX\CloudEvents\Builder;
+use PSX\DateTime\LocalDateTime;
 use PSX\Framework\Util\Uuid;
 use PSX\Http\Exception as StatusCode;
 
@@ -33,6 +34,7 @@ class Comment
         $row->setRefId($comment->getRefId());
         $row->setUserId($context->getUser()->getId());
         $row->setContent($comment->getContent() ?? throw new StatusCode\BadRequestException('Provided no content'));
+        $row->setInsertDate(LocalDateTime::now());
         $this->commentTable->create($row);
 
         $id = $this->commentTable->getLastInsertId();

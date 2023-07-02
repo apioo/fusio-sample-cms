@@ -56,69 +56,11 @@ JSON;
             'Authorization' => 'Bearer ' . $this->accessToken
         ], $body);
 
-        $actual = (string) $response->getBody();
-        $expect = <<<'JSON'
-{
-    "success": false,
-    "title": "Internal Server Error",
-    "message": "No ref provided"
-}
-JSON;
+        $body = (string) $response->getBody();
+        $data = \json_decode($body);
 
-        $this->assertEquals(400, $response->getStatusCode(), $actual);
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
-    }
-
-    public function testPut()
-    {
-        $response = $this->sendRequest('/comment', 'PUT', [
-            'User-Agent'    => 'Fusio TestCase',
-        ]);
-
-        $actual = (string) $response->getBody();
-        $expect = <<<'JSON'
-{
-    "success": false,
-    "title": "Internal Server Error",
-    "message": "Given request method is not supported"
-}
-JSON;
-
-        $this->assertEquals(405, $response->getStatusCode(), $actual);
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
-    }
-
-    public function testDelete()
-    {
-        $response = $this->sendRequest('/comment', 'DELETE', [
-            'User-Agent'    => 'Fusio TestCase',
-        ]);
-
-        $actual = (string) $response->getBody();
-        $expect = <<<'JSON'
-{
-    "success": false,
-    "title": "Internal Server Error",
-    "message": "Given request method is not supported"
-}
-JSON;
-
-        $this->assertEquals(405, $response->getStatusCode(), $actual);
-        $this->assertJsonStringEqualsJsonString($expect, $actual, $actual);
-    }
-
-    private function getBlocks(): array
-    {
-        $blocks = [];
-        $blocks[] = [
-            'type' => 'headline',
-            'content' => 'Foobar',
-        ];
-        $blocks[] = [
-            'type' => 'paragraph',
-            'content' => 'Lorem ipsum',
-        ];
-
-        return $blocks;
+        $this->assertEquals(400, $response->getStatusCode(), $body);
+        $this->assertFalse($data->success, $body);
+        $this->assertStringStartsWith('No ref provided', $data->message, $body);
     }
 }

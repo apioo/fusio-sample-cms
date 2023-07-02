@@ -1,6 +1,6 @@
 scopes: ["comment"]
 stability: 1
-public: false
+public: true
 description: "Returns a single comment"
 httpMethod: GET
 httpPath: "/comment/:id"
