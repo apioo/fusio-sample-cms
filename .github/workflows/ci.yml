@@ -49,14 +49,6 @@ jobs:
         env:
           APP_CONNECTION: ${{ matrix.connection }}
         run: php bin/fusio system:wait_for
-      - name: Setup Fusio
-        env:
-          APP_CONNECTION: ${{ matrix.connection }}
-        run: |
-          php bin/fusio migrate --no-interaction
-          php bin/fusio adduser --role=1 --username=test --email=test@test.com --password=test1234
-          php bin/fusio login --username=test --password=test1234
-          php bin/fusio deploy
       - name: Run PHPUnit
         env:
           APP_CONNECTION: ${{ matrix.connection }}
