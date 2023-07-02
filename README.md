@@ -56,5 +56,3 @@ With these few source files we have created a production ready API with all mode
 * SDK generation
 * Monetization
 * Testing
-
-Please let us know if there is documentation missing or if you like to handle a specific use case.
