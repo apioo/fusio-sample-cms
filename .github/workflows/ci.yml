@@ -5,6 +5,21 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 jobs:
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          coverage: none
+      - name: Composer install
+        run: composer install --no-interaction --no-ansi --no-progress
+      - name: Run Psalm
+        run: vendor/bin/psalm --no-progress --show-info=false
   phpunit:
     name: "PHPUnit (PHP: ${{ matrix.php-versions }})"
     runs-on: ubuntu-latest
@@ -30,8 +45,7 @@ jobs:
         run: composer install --no-interaction --no-ansi --no-progress
       - name: Setup Fusio
         run: |
-          php bin/fusio install --no-interaction
-          php bin/fusio migration:migrate --connection=System --no-interaction
+          php bin/fusio migrate --no-interaction
           php bin/fusio adduser --role=1 --username=test --email=test@test.com --password=test1234
           php bin/fusio login --username=test --password=test1234
           php bin/fusio deploy
