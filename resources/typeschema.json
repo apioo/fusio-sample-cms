@@ -56,21 +56,6 @@
         "T": "Page"
       }
     },
-    "Page_Query": {
-      "description": "Query parameters for a page",
-      "type": "object",
-      "properties": {
-        "refId": {
-          "type": "integer"
-        },
-        "title": {
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    },
     "Post": {
       "description": "A specific post",
       "type": "object",
@@ -100,24 +85,6 @@
         "T": "Post"
       }
     },
-    "Post_Query": {
-      "description": "Query parameters for a post",
-      "type": "object",
-      "properties": {
-        "refId": {
-          "type": "integer"
-        },
-        "title": {
-          "type": "string"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        }
-      }
-    },
     "Comment": {
       "description": "A specific comment",
       "type": "object",
@@ -139,18 +106,6 @@
       "$ref": "Collection",
       "$template": {
         "T": "Comment"
-      }
-    },
-    "Comment_Query": {
-      "description": "Query parameters for a comment",
-      "type": "object",
-      "properties": {
-        "refId": {
-          "type": "integer"
-        },
-        "content": {
-          "type": "string"
-        }
       }
     }
   }
