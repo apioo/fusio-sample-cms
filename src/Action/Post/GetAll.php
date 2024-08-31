@@ -16,9 +16,9 @@ use App\View;
  */
 class GetAll implements ActionInterface
 {
-    private View\Page $view;
+    private View\Post $view;
 
-    public function __construct(View\Page $view)
+    public function __construct(View\Post $view)
     {
         $this->view = $view;
     }
