@@ -96,7 +96,7 @@ class Comment
         }
 
         $content = $post->getContent();
-        if (empty($content)) {
+        if ($content === null) {
             throw new StatusCode\BadRequestException('No content provided');
         }
     }

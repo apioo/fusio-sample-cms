@@ -100,12 +100,12 @@ class Page
         }
 
         $title = $page->getTitle();
-        if (empty($title)) {
+        if ($title === null) {
             throw new StatusCode\BadRequestException('No title provided');
         }
 
         $content = $page->getContent();
-        if (empty($content)) {
+        if ($content === null) {
             throw new StatusCode\BadRequestException('No content provided');
         }
     }

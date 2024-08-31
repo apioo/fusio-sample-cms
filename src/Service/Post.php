@@ -100,17 +100,17 @@ class Post
         }
 
         $title = $post->getTitle();
-        if (empty($title)) {
+        if ($title === null) {
             throw new StatusCode\BadRequestException('No title provided');
         }
 
         $summary = $post->getSummary();
-        if (empty($summary)) {
+        if ($summary === null) {
             throw new StatusCode\BadRequestException('No summary provided');
         }
 
         $content = $post->getContent();
-        if (empty($content)) {
+        if ($content === null) {
             throw new StatusCode\BadRequestException('No content provided');
         }
     }
