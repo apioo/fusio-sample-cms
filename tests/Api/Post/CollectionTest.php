@@ -9,7 +9,7 @@ class CollectionTest extends ApiTestCase
 {
     public function testGet()
     {
-        $response = $this->sendRequest('/post', 'GET', [
+        $response = $this->sendRequest('/post?refId=2', 'GET', [
             'User-Agent'    => 'Fusio TestCase',
         ]);
 
@@ -22,7 +22,7 @@ class CollectionTest extends ApiTestCase
 
     public function testPost()
     {
-        $body = json_encode(['refId' => 0, 'title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
+        $body = json_encode(['refId' => 2, 'title' => 'foo', 'summary' => 'foo', 'content' => 'bar']);
         $response = $this->sendRequest('/post', 'POST', [
             'User-Agent'    => 'Fusio TestCase',
             'Authorization' => 'Bearer ' . $this->accessToken
