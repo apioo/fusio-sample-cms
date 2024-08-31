@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
       - name: Composer install
         run: composer install --no-interaction --no-ansi --no-progress
@@ -26,8 +26,8 @@ jobs:
     strategy:
       matrix:
         php-versions:
-          - 8.1
           - 8.2
+          - 8.3
         connection:
           - 'pdo-mysql://root:test1234@localhost/fusio'
     steps:
