@@ -22,7 +22,7 @@ class Page extends ViewAbstract
         }
 
         $condition = Condition::withAnd();
-        $condition->like(Table\Generated\PageTable::COLUMN_REF_ID, $refId);
+        $condition->equals(Table\Generated\PageTable::COLUMN_REF_ID, $refId);
 
         if (!empty($search)) {
             $condition->like(Table\Generated\PageTable::COLUMN_TITLE, '%' . $search . '%');

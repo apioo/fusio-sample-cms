@@ -22,7 +22,7 @@ class Comment extends ViewAbstract
         }
 
         $condition = Condition::withAnd();
-        $condition->like(Table\Generated\CommentTable::COLUMN_REF_ID, $refId);
+        $condition->equals(Table\Generated\CommentTable::COLUMN_REF_ID, $refId);
 
         if (!empty($search)) {
             $condition->like(Table\Generated\CommentTable::COLUMN_CONTENT, '%' . $search . '%');
