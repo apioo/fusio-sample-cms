@@ -45,9 +45,9 @@ jobs:
         run: composer install --no-interaction --no-ansi --no-progress
       - name: Wait for
         env:
-          APP_CONNECTION: ${{ matrix.connection }}
+          FUSIO_CONNECTION: ${{ matrix.connection }}
         run: php bin/fusio system:wait_for
       - name: Run PHPUnit
         env:
-          APP_CONNECTION: ${{ matrix.connection }}
+          FUSIO_CONNECTION: ${{ matrix.connection }}
         run: vendor/bin/phpunit
