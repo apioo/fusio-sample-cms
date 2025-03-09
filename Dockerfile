@@ -1,4 +1,4 @@
-FROM fusio/fusio:5.1
+FROM fusio/fusio:5.2
 COPY ./resources /var/www/html/fusio/resources
 COPY ./src /var/www/html/fusio/src
 COPY ./.fusio.yml /var/www/html/fusio/.fusio.yml
