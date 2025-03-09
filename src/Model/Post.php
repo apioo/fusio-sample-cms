@@ -14,47 +14,47 @@ class Post implements \JsonSerializable, \PSX\Record\RecordableInterface
     protected ?string $summary = null;
     protected ?string $content = null;
     protected ?\PSX\DateTime\LocalDateTime $insertDate = null;
-    public function setRefId(?int $refId) : void
+    public function setRefId(?int $refId): void
     {
         $this->refId = $refId;
     }
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->refId;
     }
-    public function setTitle(?string $title) : void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
-    public function setSummary(?string $summary) : void
+    public function setSummary(?string $summary): void
     {
         $this->summary = $summary;
     }
-    public function getSummary() : ?string
+    public function getSummary(): ?string
     {
         return $this->summary;
     }
-    public function setContent(?string $content) : void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
-    public function setInsertDate(?\PSX\DateTime\LocalDateTime $insertDate) : void
+    public function setInsertDate(?\PSX\DateTime\LocalDateTime $insertDate): void
     {
         $this->insertDate = $insertDate;
     }
-    public function getInsertDate() : ?\PSX\DateTime\LocalDateTime
+    public function getInsertDate(): ?\PSX\DateTime\LocalDateTime
     {
         return $this->insertDate;
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -65,7 +65,7 @@ class Post implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('insertDate', $this->insertDate);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }

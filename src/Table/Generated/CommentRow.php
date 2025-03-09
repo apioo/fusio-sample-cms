@@ -9,47 +9,47 @@ class CommentRow implements \JsonSerializable, \PSX\Record\RecordableInterface
     private ?int $userId = null;
     private ?string $content = null;
     private ?\PSX\DateTime\LocalDateTime $insertDate = null;
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id ?? throw new \PSX\Sql\Exception\NoValueAvailable('No value for required column "id" was provided');
     }
-    public function setRefId(?int $refId) : void
+    public function setRefId(?int $refId): void
     {
         $this->refId = $refId;
     }
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->refId;
     }
-    public function setUserId(?int $userId) : void
+    public function setUserId(?int $userId): void
     {
         $this->userId = $userId;
     }
-    public function getUserId() : ?int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
-    public function setContent(string $content) : void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content ?? throw new \PSX\Sql\Exception\NoValueAvailable('No value for required column "content" was provided');
     }
-    public function setInsertDate(\PSX\DateTime\LocalDateTime $insertDate) : void
+    public function setInsertDate(\PSX\DateTime\LocalDateTime $insertDate): void
     {
         $this->insertDate = $insertDate;
     }
-    public function getInsertDate() : \PSX\DateTime\LocalDateTime
+    public function getInsertDate(): \PSX\DateTime\LocalDateTime
     {
         return $this->insertDate ?? throw new \PSX\Sql\Exception\NoValueAvailable('No value for required column "insert_date" was provided');
     }
-    public function toRecord() : \PSX\Record\RecordInterface
+    public function toRecord(): \PSX\Record\RecordInterface
     {
         /** @var \PSX\Record\Record<mixed> $record */
         $record = new \PSX\Record\Record();
@@ -60,11 +60,11 @@ class CommentRow implements \JsonSerializable, \PSX\Record\RecordableInterface
         $record->put('insert_date', $this->insertDate);
         return $record;
     }
-    public function jsonSerialize() : object
+    public function jsonSerialize(): object
     {
         return (object) $this->toRecord()->getAll();
     }
-    public static function from(array|\ArrayAccess $data) : self
+    public static function from(array|\ArrayAccess $data): self
     {
         $row = new self();
         $row->id = isset($data['id']) && is_int($data['id']) ? $data['id'] : null;

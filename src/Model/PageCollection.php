@@ -9,7 +9,7 @@ use PSX\Schema\Attribute\Description;
  * @extends Collection<Page>
  */
 #[Description('A collection of all pages')]
-class PageCollection extends Collection
+class PageCollection extends Collection implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
 }
 

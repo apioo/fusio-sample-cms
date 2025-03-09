@@ -9,7 +9,7 @@ use PSX\Schema\Attribute\Description;
  * @extends Collection<Post>
  */
 #[Description('A collection of posts')]
-class PostCollection extends Collection
+class PostCollection extends Collection implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
 }
 

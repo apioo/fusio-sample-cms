@@ -9,7 +9,7 @@ use PSX\Schema\Attribute\Description;
  * @extends Collection<Comment>
  */
 #[Description('A collection of comments')]
-class CommentCollection extends Collection
+class CommentCollection extends Collection implements \JsonSerializable, \PSX\Record\RecordableInterface
 {
 }
 
