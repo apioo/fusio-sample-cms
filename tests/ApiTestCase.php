@@ -47,7 +47,12 @@ abstract class ApiTestCase extends ControllerDbTestCase
             '--password' => Fixture::TEST_PASSWORD,
         ]);
 
-        $application->run($input, new BufferedOutput());
+        $output = new BufferedOutput();
+        $exitCode = $application->run($input, $output);
+
+        if ($exitCode !== 0) {
+            throw new \RuntimeException('Could not execute login command: ' . $output->fetch());
+        }
     }
 
     private function runDeploy(Application $application): void
@@ -57,7 +62,12 @@ abstract class ApiTestCase extends ControllerDbTestCase
             'file'    => __DIR__ . '/../.fusio.yml',
         ]);
 
-        $application->run($input, new BufferedOutput());
+        $output = new BufferedOutput();
+        $exitCode = $application->run($input, $output);
+
+        if ($exitCode !== 0) {
+            throw new \RuntimeException('Could not execute deploy command: ' . $output->fetch());
+        }
     }
 
     private function getAccessToken(): string
