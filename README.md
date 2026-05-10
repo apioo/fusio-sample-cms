@@ -3,6 +3,10 @@
 
 ## About
 
+### Note: This repository was replaced by the [Fusio-Framework](https://github.com/apioo/fusio-framework) repository, please follow this repository for a current framework sample.
+
+----
+
 Welcome, this is a headless CMS app build with [Fusio](https://github.com/apioo/fusio) an open source API management
 solution. At first it is a great learning resource to show how to build and structure a complex API with Fusio. It
 contains many comments and should show you a way how to structure your app. It can be used as a blueprint to start a new
